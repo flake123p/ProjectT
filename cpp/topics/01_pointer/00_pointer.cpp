@@ -1,7 +1,8 @@
+//
+// How to interpret complex C/C++ declarations
+//      https://www.codeproject.com/Articles/7042/How-to-interpret-complex-C-C-declarations
+//
 
-#include <iostream>
-#include <cstdint>
-#include <memory>
 #include "all.hpp"
 
 int main() 
