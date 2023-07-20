@@ -25,6 +25,7 @@ int main()
     printf("[1]After:\n");
     printf("*x  = %d\n", x);
     printf("*ref= %d\n", ref);
+    printf("\n");
 
     x = 123;
     y = 456;
@@ -33,6 +34,7 @@ int main()
     int *&p2 = p0;  //  p2 is a reference to a pointer   to an int.
     //int &*p3;  //  ERROR: Pointer    to a reference is illegal.
     //int &&p4;  //  ERROR: Reference  to a reference is illegal.
+
 
     printf("[2]Before:\n");
     printf("*p0 = %d\n", *p0);
