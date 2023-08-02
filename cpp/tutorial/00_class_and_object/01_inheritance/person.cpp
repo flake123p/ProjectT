@@ -12,11 +12,6 @@ Person::Person(string name, string sex, int age)
     this->age = age;
 }
 
-string Person::get_name()
-{
-    return name;
-}
-
 string Person::get_sex()
 {
     return sex;
@@ -25,11 +20,6 @@ string Person::get_sex()
 int Person::get_age()
 {
     return age;
-}
-
-void Person::set_name(string name)
-{
-    this->name = name;
 }
 
 void Person::set_sex(string sex)

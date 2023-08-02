@@ -11,22 +11,27 @@ class Student
     public:
         Student();        
         
-        Student(string name, string sex, int age);
-        
-        string get_name();
-        
+        //Student(string name, string sex, int age):name(name), sex(sex), age(age) {};  //等於下一行和他的函式加起來的功能
+        Student(string name, string sex, int age, string student_class);
+                
         string get_sex();
         
         int get_age();
 
-        void set_name(string name);
+        string get_student_class();
 
         void set_sex(string sex);
 
         void set_age(int age);
 
+        void set_student_class(string student_class);
+
+        string name;  
+
+    protected:
+        string student_class;
+
     private: 
-        string name;        
         int age;        
         string sex;        
 };

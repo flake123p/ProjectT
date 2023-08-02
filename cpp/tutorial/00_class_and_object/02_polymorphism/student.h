@@ -10,6 +10,7 @@ using namespace std;
 class Student:public Person
 {
     public:
+        //overload
         Student();               
         Student(string name, string sex, int age, string student_id, string student_class);
 

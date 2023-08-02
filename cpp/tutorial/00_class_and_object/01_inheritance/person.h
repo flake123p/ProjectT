@@ -9,19 +9,20 @@ using namespace std;
 class Person
 {
     private:
-        string name;
-        string sex;
         int  age;
+
+    protected:
+        string sex;
 
     public:
         Person();
         Person(string name, string sex, int age);
 
-        string get_name();        
+        string name;
+ 
         string get_sex();        
         int get_age();
 
-        void set_name(string);
         void set_sex(string);
         void set_age(int);
 };

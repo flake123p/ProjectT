@@ -5,10 +5,9 @@ Student::Student()
     ;
 }
 
-
 Student::Student(string name, string sex, int age, string student_id, string student_class)
 {
-    this->set_name(name);
+    this->name = name;
     this->set_sex(sex);
     this->set_age(age);
     this->student_id = student_id;

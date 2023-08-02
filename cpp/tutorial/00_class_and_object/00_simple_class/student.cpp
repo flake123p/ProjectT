@@ -5,16 +5,12 @@ Student::Student()
     ;
 }
 
-Student::Student(string name, string sex, int age)
+Student::Student(string name, string sex, int age, string student_class)
 {
     this->name = name;
     this->sex = sex;
     this->age = age;
-}
-
-string Student::get_name()
-{
-    return name;
+    this->student_class = student_class;
 }
 
 string Student::get_sex()
@@ -27,9 +23,9 @@ int Student::get_age()
     return age;
 }
 
-void Student::set_name(string name)
+string Student::get_student_class()
 {
-    this->name = name;
+    return student_class;
 }
 
 void Student::set_sex(string sex)
@@ -40,5 +36,10 @@ void Student::set_sex(string sex)
 void Student::set_age(int age)
 {
     this->age = age;
+}
+
+void Student::set_student_class(string student_class)
+{
+    this->student_class = student_class;
 }
 
