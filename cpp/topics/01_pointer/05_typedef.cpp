@@ -59,6 +59,7 @@ int main()
         }POINT;
 
         POINT p; /* Valid C code */ /* Omit the use of "struct" */
+        struct tagPOINT q;
     }
 
     return 0;
