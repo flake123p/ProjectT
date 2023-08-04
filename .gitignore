@@ -3,3 +3,5 @@ aout
 a.out
 aout.exe
 *.gch
+bu/
+build/
