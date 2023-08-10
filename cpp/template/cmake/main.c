@@ -2,8 +2,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
+volatile int x = 10;
+
 int main(int argc, char* argv[])
 {
+    x = 8;
     printf("Hello World!\n");
+    x = 10;
     return 0;
 }
