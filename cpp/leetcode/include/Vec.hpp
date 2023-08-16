@@ -1,7 +1,13 @@
+#ifndef _VEC_HPP_INCLUDED_
+
+#include <iostream>
+#include <vector>
+
+#define LEN(array) sizeof(array)/sizeof(array[0]) 
 
 template <typename t>
 auto VecMake(int shape, t *data) {
-    vector<t> ret;
+    std::vector<t> ret;
     for (int i = 0; i < shape; i++) {
         ret.push_back(*data);
         data++;
@@ -11,9 +17,9 @@ auto VecMake(int shape, t *data) {
 
 template <typename t>
 auto VecMake(int shape0, int shape1, t *data) {
-    vector<vector<t>> ret0;
+    std::vector<std::vector<t>> ret0;
     for (int i = 0; i < shape0; i++) {
-        vector<t> ret1;
+        std::vector<t> ret1;
         for (int j = 0; j < shape1; j++) {
             ret1.push_back(*data);
             data++;
@@ -24,21 +30,24 @@ auto VecMake(int shape0, int shape1, t *data) {
 };
 
 template <typename t>
-void VecDump(vector<t> &m) {
+void VecDump(std::vector<t> &m) {
     printf("%s():\n", __func__);
     for (int i = 0; i < m.size(); i++) {
-        cout << m[i] << "\t";
+        std::cout << m[i] << "\t";
     }
     printf("\n");
 };
 
 template <typename t>
-void VecDump(vector<vector<t>> &m) {
+void VecDump(std::vector<std::vector<t>> &m) {
     printf("%s():\n", __func__);
     for (int i = 0; i < m.size(); i++) {
         for (int j = 0; j < m[i].size(); j++) {
-            cout << m[i][j] << "\t";
+            std::cout << m[i][j] << "\t";
         }
         printf("\n");
     }
 };
+
+#define _VEC_HPP_INCLUDED_
+#endif//_VEC_HPP_INCLUDED_

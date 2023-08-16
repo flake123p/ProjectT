@@ -6,7 +6,13 @@
 #include <memory>
 #include <stdint.h>
 #include <vector>
+
+#include "Vec.hpp"
+
 using namespace std;
+
+// Runtime: Beats 100.00%of users with C++
+// Memory : Beats 48.67%of users with C++
 
 class Solution {
 public:
@@ -69,81 +75,45 @@ public:
     }
 };
 
-void DumpMatrix(vector<vector<int>> &m) {
-    printf("%s():\n", __func__);
-    for (int i = 0; i < m.size(); i++) {
-        for (int j = 0; j < m[i].size(); j++) {
-            printf("%4d ", m[i][j]);
-        }
-        printf("\n");
-    }
-}
-
 int main() 
 {
-    vector<vector<int>> m;
-    vector<int> r0;
-    vector<int> r1;
-    vector<int> r2;
-    vector<int> r3;
-    
-    r0.push_back(1);
-    r0.push_back(2);
-    r0.push_back(3);
-    m.push_back(r0);
+    {
+        printf("Basic Algorithm:\n");
+        int mArray[] = {
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+        };
+        auto m = VecMake<int>(3, 3, mArray);
 
-    r1.push_back(4);
-    r1.push_back(5);
-    r1.push_back(6);
-    m.push_back(r1);
-    
-    r2.push_back(7);
-    r2.push_back(8);
-    r2.push_back(9);
-    m.push_back(r2);
+        int mxArray[9] = {
+            0
+        };
+        auto mx = VecMake<int>(3, 3, mxArray);
 
-    vector<vector<int>> mX;
-    vector<int> r0X;
-    vector<int> r1X;
-    vector<int> r2X;
-    
-    r0X.push_back(0);
-    r0X.push_back(0);
-    r0X.push_back(0);
-    mX.push_back(r0X);
+        VecDump(m);
+        VecDump(mx);
 
-    r1X.push_back(0);
-    r1X.push_back(0);
-    r1X.push_back(0);
-    mX.push_back(r1X);
-    
-    r2X.push_back(0);
-    r2X.push_back(0);
-    r2X.push_back(0);
-    mX.push_back(r2X);
+        Solution sol;
+        sol.rotate_basic(m, mx);
 
-    DumpMatrix(m);
-    DumpMatrix(mX);
+        VecDump(mx);
+    }
 
-    Solution sol;
-    sol.rotate_basic(m, mX);
-
-    DumpMatrix(mX);
-
-    printf("Complex Algorithm:\n");
-    m.clear();
-    r0.clear();
-    r1.clear();
-    r2.clear();
-    r3.clear();
-
-    r0.push_back(5);  r0.push_back(1);  r0.push_back(9);  r0.push_back(11); m.push_back(r0);
-    r1.push_back(2);  r1.push_back(4);  r1.push_back(8);  r1.push_back(10); m.push_back(r1);
-    r2.push_back(13); r2.push_back(3);  r2.push_back(6);  r2.push_back(7);  m.push_back(r2);
-    r3.push_back(15); r3.push_back(14); r3.push_back(12); r3.push_back(16); m.push_back(r3);
-    DumpMatrix(m);
-    sol.rotate(m);
-    DumpMatrix(m);
+    {
+        printf("Complex Algorithm:\n");
+        int mArray[] = {
+             5,  1,  9, 11,
+             2,  4,  8, 10,
+            13,  3,  6,  7,
+            15, 14, 12, 16,
+        };
+        auto m = VecMake<int>(4, 4, mArray);
+        VecDump(m);
+        Solution sol;
+        sol.rotate(m);
+        VecDump(m);
+    }
 
     return 0;
 }
