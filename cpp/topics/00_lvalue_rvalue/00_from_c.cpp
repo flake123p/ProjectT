@@ -37,6 +37,7 @@ int main()
 
 /*
 In C++, these simple rules are no longer true, but the names remain because they are close to the truth. 
+
 The most significant departure from traditional C is that an lvalue in C++ might be const, in which case it 
-cannot be ...
+cannot be the target of an assignment. (C has since evolved and now has const lvalues.)
 */

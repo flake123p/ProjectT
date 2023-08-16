@@ -13,7 +13,6 @@ using namespace std;
 
 // Runtime: Beats 30.58%of users with C++
 // Memory : Beats 52.56%of users with C++
-//
 
 class Solution {
 public:
