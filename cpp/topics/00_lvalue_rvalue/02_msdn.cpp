@@ -44,5 +44,5 @@ int main()
 /*
 The examples in this topic illustrate correct and incorrect usage when operators are not overloaded. 
 
-By overloading operators, you can make an expression such as j * 4 an lvalue.  [ESSENTIAL HERE]
+By overloading operators, you can make an expression such as j * 4 an lvalue.  [KEYPOINT HERE]
 */
