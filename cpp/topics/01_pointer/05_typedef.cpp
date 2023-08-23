@@ -62,5 +62,24 @@ int main()
         struct tagPOINT q;
     }
 
+    { // Common Examples:
+
+        typedef void *Handle_t;
+
+        typedef void (*Void_CB_t)(void);
+        typedef void (*Void_CC_t)();
+
+        typedef int (*Simple_CB_t)(void);
+        typedef int (*Simple_CC_t)();
+
+        typedef int (*Common_CB_t)(Handle_t handle);
+        typedef int (*Common_CC_t)(Handle_t);
+
+        typedef int (*Common_CB2_t)(Handle_t cbHdl, Handle_t cbPrivate);
+        typedef int (*Common_CC2_t)(Handle_t , Handle_t);
+
+        typedef void (*SampleRunner)() ;
+    }
+
     return 0;
 }
