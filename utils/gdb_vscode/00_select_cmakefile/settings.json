@@ -1,0 +1,28 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/app/template/cmake",
+    "cmake.buildDirectory" : "${workspaceFolder}/build",
+    "cmake.configureArgs" : [
+        // "-D d2d_ver=200",
+        // "-D using_f32=0"
+        //"-D LOCAL_OPENCV=1",
+        //"-D CMAKE_C_FLAGS=-O2 -march=rv32imaf",
+        //"-D CMAKE_CXX_FLAGS=-O2 -march=rv32imaf",
+    ],
+    // cmake -DDISABLE_OPENCV=1 -D USING_C_LANG=1
+    // cmake -DDISABLE_OPENCV=1 -D USING_C_LANG=1 -DCMAKE_C_FLAGS=-pg -DCMAKE_EXE_LINKER_FLAGS=-pg -DCMAKE_SHARED_LINKER_FLAGS=-pg ../app_prof_renode/
+    "cmake.buildTask": false,
+
+
+    "files.exclude": {
+        //"cv/": true,
+        "pupil_data/pieces/func2/src": true,
+        "app_cython": true,
+        "app_json": true,
+        //"app_prof*": true,
+        //"app_pupil_api": true,
+        //"app_shared_lib": true,
+        //"app_test*": true,
+        "cv": true,
+    },
+
+}

@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "gdb",
+            // "request": "attach",
+            "name": "Attach to gdbserver",
+            //"gdbpath": "/home/pupil/sda/ws/r5_toolchain/body/bin/riscv32-unknown-elf-gdb",
+            "gdbpath": "/usr/local/bin/gdb",
+            //"executable": "./build_renode/a",
+            "executable": "./build/a",
+            //"target": "localhost:5555",
+            "remote": false,
+            // "printCalls": true,
+            // "cwd": "${workspaceRoot}",
+            // "valuesFormatting": "parseText"
+        }
+    ]
+}

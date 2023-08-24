@@ -7,7 +7,9 @@ volatile int x = 10;
 int main(int argc, char* argv[])
 {
     x = 8;
-    printf("Hello World!\n");
+    printf("Hello World! %d\n", x);
     x = 10;
+    printf("Hello World! %d\n", x);
+
     return 0;
 }
