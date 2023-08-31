@@ -70,6 +70,49 @@ public:
       return *this;
    }
 
+   // Move constructor.
+   MemoryBlock(MemoryBlock&& other)
+      : _data(NULL)
+      , _length(0)
+   {
+      std::cout << "In MemoryBlock(MemoryBlock&&). length = " 
+               << other._length << ". Moving resource." << std::endl;
+
+      // Copy the data pointer and its length from the 
+      // source object.
+      _data = other._data;
+      _length = other._length;
+
+      // Release the data pointer from the source object so that
+      // the destructor does not free the memory multiple times.
+      other._data = NULL;
+      other._length = 0;
+   }
+
+   // Move assignment operator.
+   MemoryBlock& operator=(MemoryBlock&& other)
+   {
+      std::cout << "In operator=(MemoryBlock&&). length = " 
+               << other._length << "." << std::endl;
+
+      if (this != &other)
+      {
+         // Free the existing resource.
+         delete[] _data;
+
+         // Copy the data pointer and its length from the 
+         // source object.
+         _data = other._data;
+         _length = other._length;
+
+         // Release the data pointer from the source object so that
+         // the destructor does not free the memory multiple times.
+         other._data = NULL;
+         other._length = 0;
+      }
+      return *this;
+   }
+
    // Retrieves the length of the data resource.
    size_t Length() const
    {
@@ -113,6 +156,26 @@ int main()
         printf(">>> push 3rd end   ...\n");
 
         printf("\n Vector Exmaple (End):\n");
+    }
+    {
+        printf("\n Vector Exmaple MOVE (Start):\n");
+
+        // Create a vector object and add a few elements to it.
+        vector<MemoryBlock> v;
+
+        printf(">>> push 1st start ...\n");
+        v.push_back(std::move(MemoryBlock(25)));
+        printf(">>> push 1st end   ...\n");
+
+        printf(">>> push 2nd start ...\n");
+        v.push_back(std::move(MemoryBlock(75)));
+        printf(">>> push 2nd end   ...\n");
+
+        printf(">>> push 3rd start ...\n");
+        v.push_back(std::move(MemoryBlock(88)));
+        printf(">>> push 3rd end   ...\n");
+
+        printf("\n Vector Exmaple MOVE (End):\n");
     }
     return 0;
 }
