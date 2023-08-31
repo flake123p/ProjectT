@@ -81,3 +81,4 @@ lib*.so*
 *.bup
 *.cover
 callgrind*
+*.out
