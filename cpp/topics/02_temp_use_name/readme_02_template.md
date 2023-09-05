@@ -37,3 +37,46 @@ __global__ void vectorized_elementwise_kernel(int N, func_t f, array_t data) {
   }
 }
 ```
+
+```
+template <typename Dtype>
+void gemm_and_bias(
+    bool transpose_mat1,
+    bool transpose_mat2,
+    int64_t m,
+    int64_t n,
+    int64_t k,
+    at::opmath_type<Dtype> alpha_val,
+    const Dtype* mat1_ptr,
+    int64_t mat1_ld,
+    const Dtype* mat2_ptr,
+    int64_t mat2_ld,
+    const Dtype* bias,
+    Dtype* result_ptr,
+    int64_t result_ld,
+    GEMMAndBiasActivationEpilogue activation) {
+  printf("gemm_and_bias() %lu\n", sizeof(Dtype));
+  using opmath_t = at::opmath_type<Dtype>;
+  opmath_t beta_val = 0; // bias is added in epilogue
+
+  cudaDataType_t abcType = CUDA_R_32F;
+  ...
+  ...
+  ...
+}
+template void gemm_and_bias(
+    bool transpose_mat1,
+    bool transpose_mat2,
+    int64_t m,
+    int64_t n,
+    int64_t k,
+    at::opmath_type<double> alpha_val,
+    const double* mat1_ptr,
+    int64_t mat1_ld,
+    const double* mat2_ptr,
+    int64_t mat2_ld,
+    const double* bias,
+    double* result_ptr,
+    int64_t result_ld,
+    GEMMAndBiasActivationEpilogue activation);
+```

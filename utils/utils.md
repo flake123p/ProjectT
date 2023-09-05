@@ -15,3 +15,5 @@ objdump / size / readelf
 objdump -S -drwC a.out>a.out.dump
 (Please using -S with gcc -g option.)
 
+Q: memory leak trace??
+A:
