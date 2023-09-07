@@ -80,3 +80,17 @@ template void gemm_and_bias(
     int64_t result_ld,
     GEMMAndBiasActivationEpilogue activation);
 ```
+
+
+```
+namespace at::native {
+
+namespace {
+
+template <typename func_t>
+struct CUDAKernelLauncher {
+  static void launch(TensorIteratorBase& iter, const func_t& f) {
+    gpu_kernel(iter, f);
+  }
+};
+```

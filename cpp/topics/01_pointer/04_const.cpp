@@ -43,5 +43,10 @@ int main()
         const char * const * const p8  = &CpCc; //  const pointer to const pointer to const char
     }
 
+    {
+        const int *p = nullptr;         // q is a pointer to a const in
+        constexpr int *q = nullptr;     // q is a const pointer to int
+    }
+
     return 0;
 }
