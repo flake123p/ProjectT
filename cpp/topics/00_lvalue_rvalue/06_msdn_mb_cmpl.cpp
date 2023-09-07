@@ -138,6 +138,15 @@ int main()
         printf("\n Basic Exmaple (End):\n");
     }
     {
+        printf("\n Move Exmaple (Start):\n");
+
+        MemoryBlock mb1 = MemoryBlock(100);
+        MemoryBlock mb2 = MemoryBlock(20);
+        mb1 = std::move(mb2);
+
+        printf("\n Move Exmaple (End):\n");
+    }
+    {
         printf("\n Vector Exmaple (Start):\n");
 
         // Create a vector object and add a few elements to it.

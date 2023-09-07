@@ -34,7 +34,7 @@ int main()
    ci = 9; // C3892
 #endif
 
-   // Correct usage: the conditional operator returns an lvalue.
+   // Correct usage: the conditional operator returns an lvalue.    KEYPOINT
    ((i < 3) ? i : j) = 777;
 
    printf("i = %d\n", i);

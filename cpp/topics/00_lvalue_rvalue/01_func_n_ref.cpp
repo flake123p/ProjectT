@@ -26,7 +26,7 @@ int main()
         printf("func() = %d\n", func());
     }
     {
-        func2() = 7; //return lvalue
+        func2() = 7; //return lvalue        KEYPOINT
         printf("g_value = %d\n", g_value);
     }
 
