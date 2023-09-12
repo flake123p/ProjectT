@@ -1,5 +1,5 @@
 #!/bin/bash
 
-rm a.out -f
+rm *.out -f
 rm *.txt -f
 rm *.log -f
