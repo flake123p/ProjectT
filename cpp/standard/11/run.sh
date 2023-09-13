@@ -1,3 +1,3 @@
 #!/bin/bash
 
-g++ -std=c++11 *.cpp && ./a.out
+g++ -std=c++11 $1 && ./a.out

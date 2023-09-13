@@ -27,3 +27,9 @@ objdump -Slzt a.out > 19_t.log # -t, --syms               Display the contents o
 objdump -Slzr a.out > 20_r.log # -r, --reloc              Display the relocation entries in the file 
 objdump -SlzR a.out > 21_R.log # -R, --dynamic-reloc      Display the dynamic relocation entries in the file 
 objdump -Slzs a.out > 22_s.log # -s, --full-contents      Display the full contents of all sections requested 
+
+objdump -Slzd a.out > 50_d.log # -d, --disassemble        Display assembler contents of executable sections 
+objdump -SlzD a.out > 51_D.log # -D, --disassemble-all    Display assembler contents of all sections
+objdump -SlzD --prefix-addresses a.out > 51a_D.log
+objdump -SlzD --disassemble-zeroes  a.out > 51b_D.log
+objdump -SlzD --prefix-addresses --disassemble-zeroes a.out > 51c_D.log
