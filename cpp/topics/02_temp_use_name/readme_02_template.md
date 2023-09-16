@@ -94,3 +94,11 @@ struct CUDAKernelLauncher {
   }
 };
 ```
+
+
+```
+template <typename scalar_t>
+struct OpMathType {
+  using type = scalar_t;
+};
+```

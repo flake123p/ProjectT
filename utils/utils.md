@@ -17,3 +17,11 @@ objdump -S -drwC a.out>a.out.dump
 
 Q: memory leak trace??
 A:
+
+
+---
+
+cat、diff、sed、awk
+https://ithelp.ithome.com.tw/articles/10196279
+
+---
