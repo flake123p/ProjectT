@@ -23,35 +23,38 @@
 #define COUT(a) std::cout << #a " = " << a << std::endl
 #define PRINT_FUNC printf("%s()\n", __func__);
 
-template <typename A1>
-A1 mytemp(A1 a1)
-{
-    return a1 * a1;
+template <typename T>
+struct AddOp {
+  T operator()(T const &lhs, T const &rhs) {
+    return (lhs + rhs);
+  }
+
+  static T run(T const &lhs, T const &rhs) {
+    return (lhs + rhs + 10);
+  }
+};
+
+int AddOpFunc(int a, int b) {
+  return a + b;
 }
 
-template <typename A1>
-A1 mytemp_dump(A1 a1)
+template <class BFunc>
+//template <typename BFunc> // This works too!!!
+void mytemp(BFunc binop)
 {
-    COUT(typeid(A1).name());
-    COUT(sizeof(A1));
-    return a1 * a1;
+    COUT(binop(1,2));
 }
 
 int main()
 {
-    {
-        int a = 4;
-        float b = 1.414;
+    printf("\n--- Demo 1 --- Pass Function Call:\n");
+    mytemp(AddOp<int>());
 
-        COUT(mytemp(a));
-        COUT(mytemp(b));
-        COUT(mytemp<double>(b));
+    printf("\n--- Demo 2 --- Pass Function:\n");
+    mytemp(AddOp<int>::run);
 
-        printf("DUMP:\n");
-        mytemp_dump(a);
-        mytemp_dump(b);
-        mytemp_dump<double>(b);
-    }
+    printf("\n--- Demo 3 --- Pass Pure Function:\n");
+    mytemp(AddOpFunc);
 
     return 0;
 }

@@ -23,35 +23,34 @@
 #define COUT(a) std::cout << #a " = " << a << std::endl
 #define PRINT_FUNC printf("%s()\n", __func__);
 
-template <typename A1>
-A1 mytemp(A1 a1)
+// x is constant expression
+template <typename T, int x = 3>
+void mytemp(T y = 4)
 {
-    return a1 * a1;
-}
-
-template <typename A1>
-A1 mytemp_dump(A1 a1)
-{
-    COUT(typeid(A1).name());
-    COUT(sizeof(A1));
-    return a1 * a1;
+    COUT(x);
+    COUT(y);
 }
 
 int main()
 {
-    {
-        int a = 4;
-        float b = 1.414;
+    printf("\n--- Demo 1 ---\n");
+    mytemp<int>();
 
-        COUT(mytemp(a));
-        COUT(mytemp(b));
-        COUT(mytemp<double>(b));
+    printf("\n--- Demo 2 ---\n");
+    mytemp<double>();
 
-        printf("DUMP:\n");
-        mytemp_dump(a);
-        mytemp_dump(b);
-        mytemp_dump<double>(b);
-    }
+    printf("\n--- Demo 3 ---\n");
+    mytemp<int, 33>();
+
+    printf("\n--- Demo 4 ---\n");
+    mytemp(44);
+
+    printf("\n--- Demo 5 ---\n");
+    mytemp<double, 33>(44);
+
+    int i = 1233;
+    printf("\n--- Demo 6 ---\n");
+    mytemp<double, 33>(i);
 
     return 0;
 }

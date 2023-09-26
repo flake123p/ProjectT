@@ -23,34 +23,31 @@
 #define COUT(a) std::cout << #a " = " << a << std::endl
 #define PRINT_FUNC printf("%s()\n", __func__);
 
-template <typename A1>
-A1 mytemp(A1 a1)
-{
-    return a1 * a1;
-}
+class BinaryFunction {
+public:
+    BinaryFunction() = default;
+    void run() {
+        printf("Class name = (%s)\n", typeid(*this).name());
+    }
+};
 
-template <typename A1>
-A1 mytemp_dump(A1 a1)
+template <typename T, bool Dump, class BinaryFunction>
+void mytemp(T a1, BinaryFunction binop)
 {
-    COUT(typeid(A1).name());
-    COUT(sizeof(A1));
-    return a1 * a1;
+    if (Dump) {
+        printf("Do Dump:\n");
+        COUT(typeid(T).name());
+        COUT(sizeof(T));
+        COUT(a1);
+        binop.run();
+    }
 }
 
 int main()
 {
     {
-        int a = 4;
-        float b = 1.414;
-
-        COUT(mytemp(a));
-        COUT(mytemp(b));
-        COUT(mytemp<double>(b));
-
-        printf("DUMP:\n");
-        mytemp_dump(a);
-        mytemp_dump(b);
-        mytemp_dump<double>(b);
+        class BinaryFunction bi;
+        mytemp<int, true>(3, bi);
     }
 
     return 0;

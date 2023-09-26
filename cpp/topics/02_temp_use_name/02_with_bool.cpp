@@ -23,17 +23,13 @@
 #define COUT(a) std::cout << #a " = " << a << std::endl
 #define PRINT_FUNC printf("%s()\n", __func__);
 
-template <typename A1>
+template <bool Dump = false, typename A1>
 A1 mytemp(A1 a1)
 {
-    return a1 * a1;
-}
-
-template <typename A1>
-A1 mytemp_dump(A1 a1)
-{
-    COUT(typeid(A1).name());
-    COUT(sizeof(A1));
+    if (Dump) {
+        COUT(typeid(A1).name());
+        COUT(sizeof(A1));
+    }
     return a1 * a1;
 }
 
@@ -45,12 +41,12 @@ int main()
 
         COUT(mytemp(a));
         COUT(mytemp(b));
-        COUT(mytemp<double>(b));
+        std::cout << "mytemp<false, double>(b) = " << mytemp<false, double>(b) << "\n";
 
         printf("DUMP:\n");
-        mytemp_dump(a);
-        mytemp_dump(b);
-        mytemp_dump<double>(b);
+        mytemp<true>(a);
+        mytemp<true>(b);
+        mytemp<true, double>(b);
     }
 
     return 0;

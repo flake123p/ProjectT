@@ -13,6 +13,7 @@ struct X
 
 struct Y
 {
+    Y() = default;
     Y(int&, const int&) {printf("Y\n");}
 };
 
@@ -33,7 +34,8 @@ int main()
     {
         int a = 4;
         long long int b = 5;
-        Z* pw = factory<Z>(a, b);
+        //auto pw = factory<X>(a, b); //    !!!error: no matching function for call to ‘X::X()’!!!
+        auto pw = factory<Y>(a, b);
         delete(pw);
     }
 

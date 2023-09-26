@@ -23,35 +23,29 @@
 #define COUT(a) std::cout << #a " = " << a << std::endl
 #define PRINT_FUNC printf("%s()\n", __func__);
 
-template <typename A1>
-A1 mytemp(A1 a1)
-{
-    return a1 * a1;
+int AddOpFunc(int a, int b) {
+  return a + b;
 }
 
-template <typename A1>
-A1 mytemp_dump(A1 a1)
+template <class BFunc>
+void mytemp_class(BFunc binop)
 {
-    COUT(typeid(A1).name());
-    COUT(sizeof(A1));
-    return a1 * a1;
+    COUT(binop(1,2));
+}
+
+template <typename BFunc>
+void mytemp_typename(BFunc binop)
+{
+    COUT(binop(1,2));
 }
 
 int main()
 {
-    {
-        int a = 4;
-        float b = 1.414;
+    printf("\n--- Demo 1 --- Template with class:\n");
+    mytemp_class(AddOpFunc);
 
-        COUT(mytemp(a));
-        COUT(mytemp(b));
-        COUT(mytemp<double>(b));
-
-        printf("DUMP:\n");
-        mytemp_dump(a);
-        mytemp_dump(b);
-        mytemp_dump<double>(b);
-    }
+    printf("\n--- Demo 2 --- Template with typename:\n");
+    mytemp_typename(AddOpFunc);
 
     return 0;
 }
