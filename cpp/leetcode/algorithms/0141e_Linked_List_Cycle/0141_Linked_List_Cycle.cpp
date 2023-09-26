@@ -12,10 +12,15 @@ struct ListNode	{
 bool hasCycle(ListNode* head){
 	ListNode* fast = head;
 	ListNode* slow = head;
-	while (fast && fast -> next){
-		slow = slow ->next;
+	while (fast){
+		if(!fast->next){
+			return false;
+		}
 		fast = fast -> next -> next;
-		if (slow==fast) return true;
+		slow = slow -> next;
+		if(slow==fast){
+			return true;
+		}
 	}
 	return false;
 }

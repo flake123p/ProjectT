@@ -1,3 +1,3 @@
 #!/bin/bash
 
-g++ -I../../include *.cpp && ./a.out
+g++ *.cpp && ./a.out
