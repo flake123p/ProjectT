@@ -9,6 +9,9 @@
 #include <thread>
 #include <algorithm>
 
+#define COUT(a) std::cout << #a " = " << a << std::endl
+#define PRINT_FUNC printf("%s()\n", __func__);
+
 /*
   https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP11.md
 
@@ -38,8 +41,15 @@
 
   See the section on smart pointers for more information on std::unique_ptr and std::shared_ptr.
 */
-int main()
-{
 
-  return 0;
+int main(int argc, char *argv[])
+{
+    auto x = std::make_shared<int>();
+    *x = 1233;
+    
+    auto y = x;               //  !!!OK... not unique...!!!
+    COUT(*y);
+
+    return 0;
 }
+
