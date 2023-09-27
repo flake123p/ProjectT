@@ -1,4 +1,8 @@
 
+# 0927
+- [ ] CTAD, std::lock_guard, std::mutex 
+https://tjsw.medium.com/%E6%BD%AE-c-17-class-template-argument-deduction-%E5%92%8C-deduction-guide-%E9%A1%9E%E5%88%A5%E6%A8%A3%E7%89%88%E5%8F%83%E6%95%B8%E6%8E%A8%E5%B0%8E-70cc36307a42
+
 # From pytorch:
 
 ```
