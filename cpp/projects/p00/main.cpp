@@ -35,7 +35,7 @@
 #define CDUMP(a) COUT(a);TSIZE(a);TNAME(a)
 #define PRINT_FUNC printf("%s()\n", __func__);
 
-int main(int argc, char* argv[])
+void demo()
 {
     lgs::LogicUnitBase a(lgs::input, 0); 
     a.name = "_a";
@@ -65,6 +65,11 @@ int main(int argc, char* argv[])
     COUT(orG2.type2str().c_str());
 
     orG2.type_dump();
+}
+
+int main(int argc, char* argv[])
+{
+    demo();
 
     return 0;
 }
