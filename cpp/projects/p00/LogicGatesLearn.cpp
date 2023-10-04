@@ -35,43 +35,32 @@
 #define TNAME(a) std::cout << "typeid(" #a ").name() = " << typeid(a).name() << std::endl
 #define CDUMP(a) COUT(a);TSIZE(a);TNAME(a)
 #define PRINT_FUNC printf("%s()\n", __func__);
+#define PRLOC printf("%s() %d\n", __func__, __LINE__);
 
-void demo()
+
+
+void lgl::LogicGatesLearn_Demo()
 {
-    lgs::LogicUnitBase a(lgs::input, 0); 
-    a.name = "_a";
-    lgs::LogicUnitBase b(lgs::input, 1); 
-    b.name = "_b";
+    PRINT_FUNC
 
-    lgs::LogicUnitBase notG(lgs::notGate);
-    notG.import(a);
-    COUT(notG.evaluate());
+    class LearnGrid gr(3, 4);
 
-    lgs::LogicUnitBase andG(lgs::andGate);
-    andG.import(a, b);
-    COUT(andG.evaluate());
+    LearnGrid::random_init();
 
-    lgs::LogicUnitBase orG(lgs::orGate);
-    orG.import(a, b);
-    COUT(orG.evaluate());
+    lgs::LogicUnitBase inputA(lgs::input, 0); inputA.name = "_A";
+    lgs::LogicUnitBase inputB(lgs::input, 1); inputB.name = "_B";
+    gr.emplace_input_list(&inputA);
+    gr.emplace_input_list(&inputB);
 
-    lgs::LogicUnitBase xorG(lgs::xorGate);
-    xorG.import(a, b);
-    COUT(xorG.evaluate());
+    gr.randomly_initialize_types();
+    gr.randomly_initialize_connections();
+    gr.unset_all_used_unit();
+    gr.traverse_used_unit(gr.get_unit(0, 3));
+    gr.dump();
 
-    lgs::LogicUnitBase orG2(lgs::orGate);
-    orG2.import(andG, b);
-    COUT(orG2.evaluate());
+    gr.initialize_lgs_grid();
 
-    COUT(orG2.type2str().c_str());
-
-    orG2.type_dump();
-}
-
-int main(int argc, char* argv[])
-{
-    demo();
-    lgl::LogicGatesLearn_Demo();
-
-    return 0;
+    lgs::LogicUnitBase *out = gr.get_lgs_unit(0, 3);
+    out->type_dump();
+    COUT(out->evaluate());
 }

@@ -9,15 +9,19 @@
 namespace lgs {
 
 enum LogicUnitType {
+    invalid_type,
+
+    unary_type = 0x100,
     input,          // unary
     output,         // unary
     wire,           // unary
     notGate,        // unary
+
+    binary_type = 0x200,
     andGate,        // binary
     orGate,         // binary
     xorGate,        // binary
-
-    invalid_type,
+   
 };
 #define _TYPE2STR(a) case a: return std::string(#a);
 #define TYPE2STR \
