@@ -79,7 +79,7 @@ public:
         if (in != nullptr) {
             in->type_dump(level+1);
         }
-        if (in2 != nullptr) {
+        if (in2 != nullptr && (type & binary_type)) {
             in2->type_dump(level+1);
         }
     }

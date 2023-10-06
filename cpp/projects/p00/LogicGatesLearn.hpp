@@ -285,5 +285,6 @@ public:
 };
 
 void LogicGatesLearn_Demo();
+void LogicGatesLearn_DemoBruteForce();
 
 } //namespace lgl

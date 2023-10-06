@@ -71,7 +71,7 @@ void demo()
 int main(int argc, char* argv[])
 {
     demo();
-    lgl::LogicGatesLearn_Demo();
+    lgl::LogicGatesLearn_DemoBruteForce();
 
     return 0;
 }

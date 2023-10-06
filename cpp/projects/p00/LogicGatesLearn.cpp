@@ -64,3 +64,47 @@ void lgl::LogicGatesLearn_Demo()
     out->type_dump();
     COUT(out->evaluate());
 }
+
+void lgl::LogicGatesLearn_DemoBruteForce()
+{
+    PRINT_FUNC
+
+    class lgl::LearnGrid gr(3, 4);
+
+    lgl::LearnGrid::random_init();
+
+    lgs::LogicUnitBase inputA(lgs::input, 0); inputA.name = "_A";
+    lgs::LogicUnitBase inputB(lgs::input, 1); inputB.name = "_B";
+    gr.emplace_input_list(&inputA);
+    gr.emplace_input_list(&inputB);
+
+    int it = 0;
+    lgs::LogicUnitBase *out;
+    int match_ctr;
+    while (true) {
+        COUT(it++);
+        gr.randomly_initialize_types();
+        gr.randomly_initialize_connections();
+        gr.initialize_lgs_grid();
+        //
+        // input output evaluate
+        //
+        out = gr.get_lgs_unit(0, 3);
+        match_ctr = 0;
+        // 0 0 - 1
+        // 0 1 - 0   Truth Table
+        // 1 0 - 1
+        // 1 1 - 1
+        inputA.value = 0; inputB.value = 0; if (out->evaluate() == 1){match_ctr++;}
+        inputA.value = 0; inputB.value = 1; if (out->evaluate() == 0){match_ctr++;}
+        inputA.value = 1; inputB.value = 0; if (out->evaluate() == 1){match_ctr++;}
+        inputA.value = 1; inputB.value = 1; if (out->evaluate() == 1){match_ctr++;}
+
+        if (match_ctr == 4) {
+            printf("finish ...\n");
+            gr.dump();
+            out->type_dump();
+            break;
+        }
+    }
+}
