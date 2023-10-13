@@ -16,27 +16,27 @@ int lgs::LogicUnitBase::evaluate(void)
         } break;
 
         case lgs::output: {
-            return evaluate_input();
+            return evaluate_input1();
         } break;
 
         case lgs::wire: {
-            return evaluate_input();
+            return evaluate_input1();
         } break;
 
         case lgs::notGate: {
-            return !evaluate_input();
+            return !evaluate_input1();
         } break;
 
         case lgs::andGate: {
-            return evaluate_input() & evaluate_input2();
+            return evaluate_input1() & evaluate_input2();
         } break;
 
         case lgs::orGate: {
-            return evaluate_input() | evaluate_input2();
+            return evaluate_input1() | evaluate_input2();
         } break;
 
         case lgs::xorGate: {
-            return evaluate_input() ^ evaluate_input2();
+            return evaluate_input1() ^ evaluate_input2();
         } break;
     }
     return 0;

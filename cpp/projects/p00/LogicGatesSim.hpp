@@ -42,7 +42,7 @@ public:
     LogicUnitBase *in2 = nullptr;
     std::string name = "";
     int evaluate(void);
-    int evaluate_input(void) {
+    int evaluate_input1(void) {
         if (in == nullptr) {
             LGS_ASSERT(0);
             return -1;
