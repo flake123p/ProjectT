@@ -20,6 +20,15 @@
 
     The keyword is placed after the parameter-list (which must be present even if it is empty).
 */
+/*
+    https://zh-blog.logan.tw/2020/02/17/cxx-17-lambda-expression-capture-dereferenced-this/
+
+    [&]
+    [=]
+    [&, this]
+    [=, *this]
+    [=, this]
+*/
 
 int main()
 {
