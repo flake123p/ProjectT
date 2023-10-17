@@ -91,9 +91,9 @@ int main()
 {
     int x = 1;
 
-    auto getXRef = [&]() -> int { x++; return x; };
+    auto lam123 = [&]() -> int { x++; return x; };
 
-    printf("Ori X = %d, getXRef() = %d\n", x, getXRef());
+    printf("Ori X = %d, lam123() = %d\n", x, lam123());
 
     return 0;
 }

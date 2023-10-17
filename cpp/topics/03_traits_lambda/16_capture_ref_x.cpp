@@ -51,8 +51,7 @@
 */
 
 /*
-00000000000011aa l     F .text	000000000000001f              
-    main::{lambda()#1}::operator()() const
+00000000000011aa l     F .text	0000000000000021              main::{lambda()#1}::operator()() const
 
 00000000000011aa <main::{lambda()#1}::operator()() const>:
 main::{lambda()#1}::operator()() const:
@@ -66,31 +65,32 @@ main::{lambda()#1}::operator()() const:
     11be:	89 10                	mov    %edx,(%rax)
     11c0:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
     11c4:	48 8b 00             	mov    (%rax),%rax
-    11c7:	5d                   	pop    %rbp
-    11c8:	c3                   	ret
+    11c7:	8b 00                	mov    (%rax),%eax
+    11c9:	5d                   	pop    %rbp
+    11ca:	c3                   	ret
 
-00000000000011c9 <main>:
+00000000000011cb <main>:
 main():
-    11c9:	f3 0f 1e fa          	endbr64 
-    11cd:	55                   	push   %rbp
-    11ce:	48 89 e5             	mov    %rsp,%rbp
-    11d1:	48 83 ec 20          	sub    $0x20,%rsp
-    11d5:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
-    11dc:	00 00 
-    11de:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
-    11e2:	31 c0                	xor    %eax,%eax
-    11e4:	c7 45 ec 01 00 00 00 	movl   $0x1,-0x14(%rbp)
-    11eb:	48 8d 45 ec          	lea    -0x14(%rbp),%rax
-    11ef:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
-    11f3:	48 8d 45 f0          	lea    -0x10(%rbp),%rax
-    11f7:	48 89 c7             	mov    %rax,%rdi
-    11fa:	e8 ab ff ff ff       	call   11aa <main::{lambda()#1}::operator()() const>
+    11cb:	f3 0f 1e fa          	endbr64 
+    11cf:	55                   	push   %rbp
+    11d0:	48 89 e5             	mov    %rsp,%rbp
+    11d3:	48 83 ec 20          	sub    $0x20,%rsp
+    11d7:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    11de:	00 00 
+    11e0:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
+    11e4:	31 c0                	xor    %eax,%eax
+    11e6:	c7 45 ec 01 00 00 00 	movl   $0x1,-0x14(%rbp)
+    11ed:	48 8d 45 ec          	lea    -0x14(%rbp),%rax
+    11f1:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
+    11f5:	48 8d 45 f0          	lea    -0x10(%rbp),%rax
+    11f9:	48 89 c7             	mov    %rax,%rdi
+    11fc:	e8 a9 ff ff ff       	call   11aa <main::{lambda()#1}::operator()() const>
 */
 int main()
 {
     int x = 1;
 
-    auto lam123 = [&]() -> int& { x++; return x; };
+    auto lam123 = [&x]() -> int { x++; return x; };
 
     printf("Ori X = %d, lam123() = %d\n", x, lam123());
 
