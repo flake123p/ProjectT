@@ -2,6 +2,25 @@
 # GDB命令基礎，讓你的程序bug無處躲藏
 https://www.cntofu.com/book/46/gdb/gdbming_ling_ji_chu_ff0c_rang_ni_de_cheng_xu_bug_w.md
 
+(gdb) r/run             # 開始運行程序
+(gdb) c/continue        # 繼續運行
+(gdb) n/next            # 下一行，不進入函數調用
+(gdb) s/step            # 下一行，進入函數調用
+(gdb) ni/si             # 嚇一跳指令，ni和si區別同上
+(gdb) fini/finish       # 繼續運行至函數退出/當前棧幀
+(gdb) u/util            # 繼續運行至某一行，在循環中，u可以實現運行至循環剛剛退出，但這取決於循環的實現
+
+(gdb) set args          # 設置程序啟動參數，如：set args 10 20 30
+(gdb) show args         # 查看程序啟動參數
+(gdb) path <dir>        # 設置程序的運行路徑
+(gdb) show paths        # 查看程序的運行路徑
+(gdb) set env <name=val># 設置環境變量，如：set env USER=chen
+(gdb) show env [name]   # 查看環境變量
+(gdb) cd <dir>          # 相當於shell的cd命令
+(gdb) pwd               # 顯示當前所在目錄
+
+(gdb) shell <commond>   # 執行shell命令
+
 # GDB實用教學：自動化你的debug
 https://jasonblog.github.io/note/gdb/gdbshi_yong_jiao_xue_ff1a_zi_dong_hua_ni_de_debug.html
 
