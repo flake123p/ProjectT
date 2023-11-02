@@ -23,7 +23,7 @@ int main()
     a[0] = fun1;
     a[1] = &fun2;
 
-    cout << pf[0][0]((char *)"fun1") << endl;
+    cout << (*pf)[0]((char *)"fun1") << endl;
     cout << pf[0][1]((char *)"fun2") << endl;
 
     return 0;
