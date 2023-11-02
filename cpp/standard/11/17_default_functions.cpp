@@ -20,7 +20,7 @@ struct A {
 
 // With inheritance:
 struct B {
-  B() : x{1} {}
+  B() : x{2} {}
   int x;
 };
 
