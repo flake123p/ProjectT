@@ -32,11 +32,15 @@ void foo()
 class MyClass {
     float a;    
 };
+
+int x = 4;
 }
 
 int main()
 {
-    foo();
+    printf("x = %d\n", x);
+
+    ::foo();
 
     COUT(sizeof(MyClass));
 
