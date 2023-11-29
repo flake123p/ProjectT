@@ -1,3 +1,3 @@
 #!/bin/bash
 
-g++ -std=c++17 $1 && ./a.out
+g++ -std=c++20 $1 && ./a.out
