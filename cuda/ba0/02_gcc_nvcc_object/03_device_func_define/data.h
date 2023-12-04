@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef COMMON_API
-#define COMMON_API
+#ifndef HPC_API
+#define HPC_API
 #endif
 
 typedef struct {
@@ -17,7 +17,7 @@ public:
     int b;
     int c;
     int d;
-    COMMON_API void run() {
+    HPC_API void run() {
         d = a * b + c;
     }
 };

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define COMMON_API __device__
+#define HPC_API __device__
 #include "data.h"
 
 //
