@@ -50,20 +50,12 @@ public:
         -   -  15   -
         -   -   - \ 8
     */
-    int dump_children() {
-        int max_depth;
-        start_traverse(max_depth);
-        return max_depth;
+    void dump_tree() {
+        //int max_depth = calc_max_depth();
     }
 
     int calc_max_depth() {
-        int max_depth;
-        start_traverse(max_depth);
-        return max_depth;
-    }
-
-    void start_traverse(int &max_depth) {
-        max_depth = 1;
+        int max_depth = 1;
         int cur_depth = 1;
 
         if (right != nullptr) {
@@ -73,6 +65,7 @@ public:
             left->traverse(max_depth, cur_depth);
         }
         //printf("max_depth = %d\n", max_depth);
+        return max_depth;
     }
 
     void traverse(int &max_depth, int &cur_depth) {

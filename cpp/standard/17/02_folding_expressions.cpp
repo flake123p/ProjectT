@@ -50,8 +50,15 @@ int main() {
     auto logical_and = logicalAnd(b, b2, true); // == true
     CDUMP(logical_and);
 
-    auto sum_result = sum(1, 2, 3.0);
-    CDUMP(sum_result);
-    
+    {
+        printf("\nsum(1, 2):\n");
+        auto sum_result = sum(1, 2);
+        CDUMP(sum_result);
+    }
+    {
+        printf("\nsum(1, 2, 3.0):\n");
+        auto sum_result = sum(1, 2, 3.0);
+        CDUMP(sum_result);
+    }
     return 0;
 }
