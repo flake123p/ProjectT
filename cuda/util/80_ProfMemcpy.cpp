@@ -138,6 +138,18 @@ double prof_2x512Mx100()
 
 int main() 
 {
+    {
+        printf("cudaGetDeviceCount\n");
+        int devCount;
+        cudaError_t rc = cudaGetDeviceCount(&devCount);
+        printf("RC = %d, devCount = %d\n", (int)rc, devCount);
+
+        int devIdx = 0;
+        printf("cudaSetDevice: %d\n", devIdx);
+        rc = cudaSetDevice(devIdx);
+        printf("RC = %d\n", rc);
+    }
+
     if (1)
     {
         double t = prof_1x1Gx100_h2d();
