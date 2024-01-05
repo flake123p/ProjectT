@@ -6,7 +6,7 @@
 #include <numeric>
 #include <cmath>
 #include <map>
-#include <thread>
+#include <thread> // chrono
 
 /*
     https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP11.md

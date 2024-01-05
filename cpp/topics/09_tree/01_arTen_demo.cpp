@@ -26,15 +26,15 @@ int main()
                 printf("i:%d, j:%d, val:%d\n", i, j, at.get({i, j}));
             }
         }
-        at.dump_array([](int idx, int cur_val) {
-            printf("idx = %d, val = %d", idx, cur_val);
+        at.travers_array([](int idx, int *inst) {
+            printf("idx = %d, val = %d\n", idx, *inst);
         });
         at.travers_array([](int idx, int *inst) {
             idx = idx;
             *inst = 2266;
         });
-        at.dump_array([](int idx, int cur_val) {
-            printf("idx = %d, val = %d", idx, cur_val);
+        at.travers_array([](int idx, int *inst) {
+            printf("idx = %d, val = %d\n", idx, *inst);
         });
     }
 }

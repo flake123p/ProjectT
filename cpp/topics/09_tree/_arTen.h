@@ -10,7 +10,7 @@ public:
     int prod_;
     std::vector<int> shape_;
     std::vector<int> stride_;
-    T *array_;
+    T *array_; //storage
 
     ArTen(const std::initializer_list<int>& shape) {
         //printf("list.size() = %ld\n", shape.size());
@@ -100,15 +100,6 @@ public:
         }
         printf("\n");
     };
-
-    template <typename DumpFunc>
-    void dump_array(DumpFunc f) {
-        for (int i = 0; i < prod_; i++) {
-            printf("[%4d] ", i);
-            f(i, array_[i]);
-            printf("\n");
-        }
-    }
 
     template <typename TravFunc>
     void travers_array(TravFunc f) {
