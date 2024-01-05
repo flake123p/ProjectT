@@ -148,6 +148,12 @@ int main()
         printf("cudaSetDevice: %d\n", devIdx);
         rc = cudaSetDevice(devIdx);
         printf("RC = %d\n", rc);
+
+        printf("cudaGetDeviceProperties\n");
+        struct cudaDeviceProp pp;
+        rc = cudaGetDeviceProperties(&pp, devIdx);
+        printf("RC = %d\n", rc);
+        printf("name = %s\n", pp.name);
     }
 
     if (1)
