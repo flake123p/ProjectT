@@ -138,13 +138,13 @@ double prof_2x512Mx100()
 
 int main() 
 {
-    {
-        printf("cudaGetDeviceCount\n");
-        int devCount;
-        cudaError_t rc = cudaGetDeviceCount(&devCount);
-        printf("RC = %d, devCount = %d\n", (int)rc, devCount);
+    printf("cudaGetDeviceCount\n");
+    int devCount;
+    cudaError_t rc = cudaGetDeviceCount(&devCount);
+    printf("RC = %d, devCount = %d\n", (int)rc, devCount);
 
-        int devIdx = 0;
+    for (int devIdx = 0; devIdx < devCount; devIdx ++) 
+    {
         printf("cudaSetDevice: %d\n", devIdx);
         rc = cudaSetDevice(devIdx);
         printf("RC = %d\n", rc);
@@ -154,22 +154,23 @@ int main()
         rc = cudaGetDeviceProperties(&pp, devIdx);
         printf("RC = %d\n", rc);
         printf("name = %s\n", pp.name);
+
+        if (1)
+        {
+            double t = prof_1x1Gx100_h2d();
+            printf("t = %f(%.2f) seconds, GBs = %f(%.2f)\n", t, t, 100.0/t, 100.0/t);
+        }
+        if (1)
+        {
+            double t = prof_1x1Gx100_d2h();
+            printf("t = %f(%.2f) seconds, GBs = %f(%.2f)\n", t, t, 100.0/t, 100.0/t);
+        }
+        if (1)
+        {
+            double t = prof_2x512Mx100();
+            printf("t = %f(%.2f) seconds, GBs = %f(%.2f)\n", t, t, 100.0/t, 100.0/t);
+        }
     }
 
-    if (1)
-    {
-        double t = prof_1x1Gx100_h2d();
-        printf("t = %f(%.2f) seconds, GBs = %f(%.2f)\n", t, t, 100.0/t, 100.0/t);
-    }
-    if (1)
-    {
-        double t = prof_1x1Gx100_d2h();
-        printf("t = %f(%.2f) seconds, GBs = %f(%.2f)\n", t, t, 100.0/t, 100.0/t);
-    }
-    if (1)
-    {
-        double t = prof_2x512Mx100();
-        printf("t = %f(%.2f) seconds, GBs = %f(%.2f)\n", t, t, 100.0/t, 100.0/t);
-    }
     return 0;
 }

@@ -4,17 +4,37 @@
 int main()
 {
     {
-        class TreeClass a, b, c;
-        a.set_left(b);
-        a.set_right(c);
-        BASIC_ASSERT(a.calc_max_depth() == 2);
+        class TreeClass a;
+        BASIC_ASSERT(a.calc_max_depth() == 0);
     }
     {
         class TreeClass a, b, c;
         a.set_left(b);
+        a.set_right(c);
+        BASIC_ASSERT(a.calc_max_depth() == 1);
+    }
+    {
+        class TreeClass a, b, c, d;
+        a.set_left(b);
         b.set_right(c);
-        BASIC_ASSERT(a.calc_max_depth() == 3);
-        BASIC_ASSERT(b.calc_max_depth() == 2);
-        BASIC_ASSERT(c.calc_max_depth() == 1);
+        b.set_left(d);
+        BASIC_ASSERT(a.calc_max_depth() == 2);
+        BASIC_ASSERT(b.calc_max_depth() == 1);
+        BASIC_ASSERT(c.calc_max_depth() == 0);
+
+        class TreeDraw<class TreeClass *> treeDraw(a.calc_max_depth());
+        treeDraw.DumpWithIndice();
+        treeDraw.TreeNodesRegister(
+            &a,
+            [](class TreeClass *prev) -> class TreeClass * {
+                return prev->right;
+            },
+            [](class TreeClass *prev) -> class TreeClass * {
+                return prev->left;
+            }
+        );
+        treeDraw.Draw();
+
+        treeDraw.DrawV();
     }
 }

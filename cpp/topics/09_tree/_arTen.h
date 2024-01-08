@@ -40,7 +40,8 @@ public:
         prod_ = prod;
         //printf("Final prod = %d\n", prod);
 
-        array_ = (T *)malloc(sizeof(T) * prod);
+        //array_ = (T *)malloc(sizeof(T) * prod);
+        array_ = (T *)calloc(sizeof(T) * prod, 1);
 
         BASIC_ASSERT(shape_.size() == dims_);
         BASIC_ASSERT(stride_.size() == dims_);
@@ -72,6 +73,10 @@ public:
         BASIC_ASSERT(loc >= 0);
         //printf("loc = %d\n", loc);
         return loc;
+    };
+
+    T &ref(const std::initializer_list<int>& indices) {
+        return array_[indexing(indices)];
     };
 
     T get(const std::initializer_list<int>& indices) {

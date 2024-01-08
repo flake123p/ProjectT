@@ -1,5 +1,5 @@
 #include "_list.h"
-#include "_tree.h"
+//#include "_tree.h"
 #include "_arTen.h"
 
 int main()
