@@ -8,6 +8,7 @@ public:
     class TreeClass *prev;
     class TreeClass *left;
     class TreeClass *right;
+    void *payload;
 
     void set_prev(class TreeClass &input)
     {
@@ -35,29 +36,45 @@ public:
     }
 
     int calc_max_depth() {
+        int max_depth = traverse(
+            [](class TreeClass *cur, int cur_depth) -> void {
+                cur = cur; //dummy
+                cur_depth = cur_depth; //dummy
+            }
+        );
+        return max_depth;
+    }
+
+    template<typename TravFunc_t> // [](class TreeClass *cur, int cur_depth) -> void {
+    int traverse(TravFunc_t f) {
         int max_depth = 0;
         int cur_depth = 0;
 
+        f(this, cur_depth);
+
         if (right != nullptr) {
-            right->traverse_depth(max_depth, cur_depth);
+            right->traverse_depth(max_depth, cur_depth, f);
         }
         if (left != nullptr) {
-            left->traverse_depth(max_depth, cur_depth);
+            left->traverse_depth(max_depth, cur_depth, f);
         }
         //printf("max_depth = %d\n", max_depth);
         return max_depth;
     }
-
-    void traverse_depth(int &max_depth, int &cur_depth) {
+    template<typename TravFunc_t>
+    void traverse_depth(int &max_depth, int &cur_depth, TravFunc_t f) {
         cur_depth++;
         if (cur_depth > max_depth) {
             max_depth = cur_depth;
         }
+
+        f(this, cur_depth);
+
         if (right != nullptr) {
-            right->traverse_depth(max_depth, cur_depth);
+            right->traverse_depth(max_depth, cur_depth, f);
         }
         if (left != nullptr) {
-            left->traverse_depth(max_depth, cur_depth);
+            left->traverse_depth(max_depth, cur_depth, f);
         }
         cur_depth--;
     }
@@ -79,6 +96,19 @@ public:
     };
     using info = struct cbtInfo;
 
+    enum class DrawType : int {
+        Null = 0, //default
+        Node,
+        Root,
+        Slash,
+        Backslash,
+    };
+    struct drawInfo {
+        DrawType type;
+        info *pInfo;
+    };
+
+    int drawLink_ = 1;
     int treeDepth_; // +1 = column, start from 0
     class ArTen<info> *array2D_;
 
@@ -169,8 +199,8 @@ public:
     //                                       ...
     //                                       ...
     //
-    template<typename rFunc_t, typename lFunc_t>
-    int TreeNodesRegister(T root, rFunc_t rFunc, lFunc_t lFunc) {
+    template<typename ChildFunc_t> // [](class TreeClass *prev, int isLeft) -> class TreeClass * {
+    int TreeNodesRegister(T root, ChildFunc_t f) {
 
         array2D_->ref({0, 0}).node = root;
         // array2D_->ref({0, 1}).node = rFunc(root);
@@ -193,11 +223,13 @@ public:
                 
                 if (prevInfo->node != nullptr) {
                     //printf("[%d] prev index = %d\n", __LINE__, prevInfo->index);
+                    int isLeft;
                     if (curNodeIdx % 2 == 1) {
-                        array2D_->ref({r, c}).node = rFunc(prevInfo->node);
+                        isLeft = 0;
                     } else {
-                        array2D_->ref({r, c}).node = lFunc(prevInfo->node);
+                        isLeft = 1;
                     }
+                    array2D_->ref({r, c}).node = f(prevInfo->node, isLeft);
                 }
 
                 curNodeIdx++;
@@ -211,7 +243,7 @@ public:
         return 0;
     }
 
-    info &ref(const std::initializer_list<int>& indices) {
+    info &Info(const std::initializer_list<int>& indices) {
         return array2D_->ref(indices);
     };
 
@@ -222,8 +254,8 @@ public:
 
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
-                if (ref({r, c}).node != nullptr) {
-                    printf("[%3d] ", ref({r, c}).index);
+                if (Info({r, c}).node != nullptr) {
+                    printf("[%3d] ", Info({r, c}).index);
                 } else {
                     printf("      ");
                 }
@@ -251,44 +283,102 @@ public:
         -   -  15   -
         -   -   - \ 8
     */
-    int DrawV() {
+    template<typename TUIFunc_t> // [](class TreeClass *node) -> void {
+    int DrawV(TUIFunc_t f) {
         BASIC_ASSERT(array2D_->shape_.size() == 2);
         int row = array2D_->shape_[0];
         int col = array2D_->shape_[1];
 
-        int totalLines = (row * 2) - 0;
+        int layoutRows = (row * 2);
+        int layoutCols = (col * 2);
         int elemNumInCol;
-        int paddingInCol;
-        int premablesInCol;
+        int rowNumPerElem;
+        int rowPaddingPerElem;
         int newRol;
+        int newCol;
 
-        class ArTen<info *> verticalLayout({totalLines, col});
+        class ArTen<struct drawInfo> verticalLayout({layoutRows, layoutCols});
 
         // Remap row index to vertical layout
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
-                if (ref({r, c}).node != nullptr) {
+                if (Info({r, c}).node != nullptr) {
                     elemNumInCol = pow(2, c);
-                    paddingInCol = totalLines / elemNumInCol;
-                    premablesInCol = paddingInCol / 2;
+                    rowNumPerElem = layoutRows / elemNumInCol;
+                    rowPaddingPerElem = rowNumPerElem / 2;
+                    BASIC_ASSERT(rowPaddingPerElem > 0); //must > 0, because first line must be empty
 
-                    newRol = (r * paddingInCol) + premablesInCol;
-                    //printf("> %d,%d,%d,%d\n", newRol, r, paddingInCol, premablesInCol);
-                    BASIC_ASSERT(newRol < totalLines);
-                    verticalLayout.ref({newRol, c}) = &ref({r, c});
+                    newRol = (r * rowNumPerElem) + rowPaddingPerElem;
+                    newCol = (c * 2) + 1;
+                    //printf("> %d,%d,%d,%d\n", newRol, r, rowNumPerElem, rowPaddingPerElem);
+                    BASIC_ASSERT(newRol < layoutRows);
+                    verticalLayout.ref({newRol, newCol}).pInfo = &Info({r, c});
+                    verticalLayout.ref({newRol, newCol}).type = DrawType::Node;
+                    //
+                    // Add link
+                    //
+                    DrawType newType;
+                    int rowOffset = rowPaddingPerElem / 2;
+                    // root
+                    if (Info({r, c}).index == 0) {
+                        rowOffset = 0;
+                        newType = DrawType::Root;
+                    }
+                    // right
+                    if ((Info({r, c}).index % 2) == 1) {
+                        newType = DrawType::Slash;
+                    }
+                    // left
+                    else {
+                        rowOffset = rowOffset * -1;
+                        newType = DrawType::Backslash;
+                    }
+                    newRol = newRol + rowOffset;
+                    newCol = newCol - 1;
+                    verticalLayout.ref({newRol, newCol}).type = newType;
                 }
             }
         }
 
-        for (int r = 0; r < totalLines; r++) {
-            for (int c = 0; c < col; c++) {
-                if (verticalLayout.ref({r, c}) != nullptr) {
-                    printf("[%3d] ", verticalLayout.ref({r, c})->index);
-                } else {
-                    printf(" ---  ");
+        if (drawLink_) {
+            for (int r = 1; r < layoutRows; r++) {
+                for (int c = 1; c < layoutCols; c+=1) {
+                    if (verticalLayout.ref({r, c}).pInfo != nullptr) {
+                        printf("[%2d] ", verticalLayout.ref({r, c}).pInfo->index);
+                        f(verticalLayout.ref({r, c}).pInfo->node);
+                    } 
+                    else {
+                        if ((c % 2) == 0) {
+                            // Link Columns
+                            if (verticalLayout.ref({r, c}).type == DrawType::Slash) {
+                                printf(" / ");
+                            }
+                            else if (verticalLayout.ref({r, c}).type == DrawType::Backslash) {
+                                printf(" \\ ");
+                            } 
+                            else {
+                                printf("   ");
+                            }
+                        }
+                        else {
+                            printf(" --- ");
+                            f(nullptr);
+                        }
+                    }
                 }
+                printf("\n");
             }
-            printf("\n");
+        } else {
+            for (int r = 1; r < layoutRows; r++) {
+                for (int c = 1; c < layoutCols; c+=2) {
+                    if (verticalLayout.ref({r, c}).pInfo != nullptr) {
+                        printf("[%3d] ", verticalLayout.ref({r, c}).pInfo->index);
+                    } else {
+                        printf(" ---  ");
+                    }
+                }
+                printf("\n");
+            }
         }
         //printf("\n");
         return 0;

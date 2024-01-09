@@ -26,15 +26,20 @@ int main()
         treeDraw.DumpWithIndice();
         treeDraw.TreeNodesRegister(
             &a,
-            [](class TreeClass *prev) -> class TreeClass * {
-                return prev->right;
-            },
-            [](class TreeClass *prev) -> class TreeClass * {
-                return prev->left;
+            [](class TreeClass *prev, int isLeft) -> class TreeClass * {
+                if (isLeft) {
+                    return prev->left;
+                } else {
+                    return prev->right;
+                }
             }
         );
         treeDraw.Draw();
 
-        treeDraw.DrawV();
+        treeDraw.DrawV(
+            [](class TreeClass *node) -> void {
+                node = node;
+            }
+        );
     }
 }
