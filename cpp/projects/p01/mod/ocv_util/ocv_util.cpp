@@ -1,4 +1,4 @@
-#include "basic.h"
+#include "ocv_util.h"
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
@@ -11,8 +11,6 @@
 using namespace cv;
 using namespace std;
 
-typedef unsigned char byte;
-
 static cv::Mat bytesToMat1(byte *bytes, int width, int height)
 {
     cv::Mat image = cv::Mat(height,width,CV_8UC1,bytes).clone(); // make a copy
@@ -23,6 +21,20 @@ static cv::Mat bytesToMat3(byte *bytes, int width, int height)
 {
     cv::Mat image = cv::Mat(height,width,CV_8UC3,bytes).clone(); // make a copy
     return image;
+}
+
+int OcvUtil_BytesToImag1(byte *bytes, int width, int height, const char *fileName)
+{
+    cv::Mat image = cv::Mat(height,width,CV_8UC1,bytes).clone(); // make a copy
+    cv::imwrite(fileName, image);
+    return 0;
+}
+
+int OcvUtil_BytesToImag3(byte *bytes, int width, int height, const char *fileName)
+{
+    cv::Mat image = cv::Mat(height,width,CV_8UC3,bytes).clone(); // make a copy
+    cv::imwrite(fileName, image);
+    return 0;
 }
 
 void ocv_util()

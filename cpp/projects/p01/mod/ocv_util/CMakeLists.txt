@@ -10,7 +10,13 @@ target_include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${MAIN_PROJECT_DIR}/mod/basic"
 )
-
+if(${LOCAL_OPENCV})
+    message("Use local OpenCV ...")
+    find_package( OpenCV REQUIRED PATHS "${PROJECT_SOURCE_DIR}/../cv")
+else()
+    message("Use system OpenCV ...")
+    find_package( OpenCV REQUIRED )
+endif()
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 target_link_libraries(ocv_util PUBLIC ${OpenCV_LIBS})

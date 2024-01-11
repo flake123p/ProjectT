@@ -43,6 +43,7 @@ else()
     message("Use system OpenCV ...")
     find_package( OpenCV REQUIRED )
 endif()
+
 # find_package( OpenCV REQUIRED )
 # include_directories( ${OpenCV_INCLUDE_DIRS} )
 

@@ -9,6 +9,6 @@ if (NOT TARGET ocv_util)
 add_subdirectory(${MAIN_PROJECT_DIR}/mod/ocv_util ${CMAKE_BINARY_DIR}/mod/ocv_util)
 endif()
 
-target_link_libraries(${curr_target} PUBLIC ocv_util)
+target_link_libraries(${curr_target} PUBLIC ocv_util ${OpenCV_LIBS})
 
 endfunction()

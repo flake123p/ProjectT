@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef byte
+typedef unsigned char byte;
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

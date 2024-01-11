@@ -8,6 +8,7 @@ https://github.com/takafumihoriuchi/MNIST_for_C
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+#include "basic.h"
 
 #ifdef __cplusplus
 extern "C" {
