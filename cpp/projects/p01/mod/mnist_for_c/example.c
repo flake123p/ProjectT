@@ -14,7 +14,7 @@ unsigned char test_label_char[NUM_TEST][1];
 
 double train_image[NUM_TRAIN][SIZE784];
 double test_image[NUM_TEST][SIZE784];
-int  train_label[NUM_TRAIN];
+int train_label[NUM_TRAIN];
 int test_label[NUM_TEST];
 
 void FlipLong(unsigned char * ptr)

@@ -112,4 +112,11 @@ public:
             f(i, &array_[i]);
         }
     }
+    /*
+        Assign(with casting) Example:
+
+        at.travers_array([](int idx, float *inst) {
+            *inst = (float)2266;
+        });
+    */
 };
