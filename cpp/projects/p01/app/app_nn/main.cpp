@@ -47,12 +47,12 @@ void Demo_mnist_inference()
     });
 
     printf("%f %f\n", test_image[0][10*28+20], test_image[0][10*28+21]);
-    printf("%f %f\n", testImages.array_[10*28+20], testImages.array_[10*28+21]);
+    printf("%f %f\n", testImages(0, 10*28+20), testImages(0, 10*28+20));
 
     printf("%d\n", test_label[0]);
     printf("%d\n", train_label[0]);
 
-    nn_MatmulLt_RowMajor<float>(&testImages.ref({0,0}), local_w0_storage, buf1, 1, 784, 200, 0, 1);
+    nn_MatmulLt_RowMajor<float>(&testImages(0, 0), local_w0_storage, buf1, 1, 784, 200, 0, 1);
     nn_vecAdd(buf1, local_b0_storage, buf1, 200);
     nn_relu(buf1, buf1, 200);
     nn_MatmulLt_RowMajor<float>(buf1, local_w1_storage, buf2, 1, 200, 200, 0, 1);

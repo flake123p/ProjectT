@@ -26,6 +26,9 @@ int main()
                 printf("i:%d, j:%d, val:%d\n", i, j, at.get({i, j}));
             }
         }
+        printf("Elem 0: %d\n", at(0));
+        printf("Elem 1: %d\n", at(1));
+
         at.travers_array([](int idx, int *inst) {
             printf("idx = %d, val = %d\n", idx, *inst);
         });

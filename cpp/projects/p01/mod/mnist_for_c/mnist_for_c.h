@@ -72,7 +72,7 @@ void save_image(int n, char name[]);
 // save mnist image (call for each image)
 // store train_image[][] into image[][][]
 void save_mnist_pgm(double data_image[][SIZE784], int index);
-int example(void);
+int mnist_for_c_example(void);
 
 #ifdef __cplusplus
 };//extern "C"

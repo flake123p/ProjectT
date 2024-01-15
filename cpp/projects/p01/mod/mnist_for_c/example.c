@@ -194,7 +194,7 @@ void save_mnist_pgm(double data_image[][SIZE784], int index)
     save_image(n, "");
 }
 
-int example(void)
+int mnist_for_c_example(void)
 {
     // call to store mnist in array
     load_mnist();

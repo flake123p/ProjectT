@@ -2,6 +2,6 @@
 
 int main()
 {
-    example();
+    mnist_for_c_example();
     return 0;
 }

@@ -7,7 +7,10 @@ template <typename T>
 class ArTen {
 public:
     size_t dims_;
-    int prod_;
+    union {
+        int prod_;
+        int size;
+    };
     std::vector<int> shape_;
     std::vector<int> stride_;
     T *array_; //storage
@@ -75,6 +78,26 @@ public:
         return loc;
     };
 
+    T &operator()(int x, int y, int z) {
+        BASIC_ASSERT(dims_ == 3);
+        BASIC_ASSERT(x < shape_[0]);
+        BASIC_ASSERT(y < shape_[1]);
+        BASIC_ASSERT(z < shape_[2]);
+        return ref({x, y, z});
+    };
+
+    T &operator()(int row, int col) {
+        BASIC_ASSERT(dims_ == 2);
+        BASIC_ASSERT(row < shape_[0]);
+        BASIC_ASSERT(col < shape_[1]);
+        return ref({row, col});
+    };
+
+    T &operator()(int idx) {
+        BASIC_ASSERT(idx < prod_);
+        return array_[idx];
+    };
+
     T &ref(const std::initializer_list<int>& indices) {
         return array_[indexing(indices)];
     };
@@ -113,7 +136,7 @@ public:
         }
     }
     /*
-        Assign(with casting) Example:
+        Assignment Example (Type Casting) :
 
         at.travers_array([](int idx, float *inst) {
             *inst = (float)2266;
