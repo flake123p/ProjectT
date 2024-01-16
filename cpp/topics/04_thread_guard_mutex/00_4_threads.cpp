@@ -1,6 +1,6 @@
 // thread example
 #include <iostream>       // std::cout
-#include <thread>         // std::thread
+#include <thread>         // std::thread, std::chrono
 #include <vector>
 
 volatile int x[100] = {0};

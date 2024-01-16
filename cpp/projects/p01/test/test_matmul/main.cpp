@@ -5,6 +5,7 @@
 #include "_arTenMat.h"
 #include "_basic.h"
 #include "_rand.h"
+#include <thread>         // std::thread, std::chrono
 
 void My_Matmul_Demo()
 {
@@ -82,12 +83,15 @@ void My_Matmul_RandomTest()
 void My_Matmul_RandomTestFull()
 {
     int m, k, n;
-    int loop = 100000;
+    int loop = 20000;
     int innerLoop = 5;
     for (int lo = 0; lo < loop; lo++) {
         m = RandInRange(1, 20);
         k = RandInRange(1, 20);
         n = RandInRange(1, 20);
+        // m = 2000;
+        // k = 2000;
+        // n = 2000;
         for (int in = 0; in < innerLoop; in++) {
             Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> a;
             Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> b;
@@ -110,9 +114,75 @@ void My_Matmul_RandomTestFull()
             // Mat_Dump(A);
             Mat_CompareLt(a, A);
             // Mat_Dump(c);
-            // Mat_Dump(C);
+            //Mat_Dump(C);
         }
     }
+}
+
+/*
+    2000x2000 x 2000x2000, loop 10
+
+    Eigen. AT0 x AT1 = 5.368055 seconds  (1 Core Used)
+
+    Eigen. AT0 x AT0 = 5.329165 seconds  (1 Core Used)
+
+    NNMatmulSimple. AT0 x AT1 = 84.463739 seconds  (1 Core Used)
+
+    NNMatmulSimple. AT0 x AT0 = 253.909623 seconds  (1 Core Used)
+*/
+void My_Matmul_Prof_Eigen() {
+    std::chrono::time_point<std::chrono::steady_clock> start, end;
+    start = std::chrono::steady_clock::now();
+    {
+        int m = 2000;
+        int k = 2000;
+        int n = 2000;
+        int loop = 10;
+
+        Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> a;
+        Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> b;
+        Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> c;
+        a.resize(m, k);
+        b.resize(n, k);
+        c.resize(m, n);
+        Mat_RandFloat0to1(a);
+        Mat_RandFloat0to1(b);
+
+        for (int lo = 0; lo < loop; lo++) {
+            c = a * b;
+        }
+    }
+    end = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    double t = elapsed_seconds.count(); // t number of seconds, represented as a `double`
+
+    printf("t = %f seconds\n", t);
+}
+
+void My_Matmul_Prof_NNMatmulSimple() {
+    std::chrono::time_point<std::chrono::steady_clock> start, end;
+    start = std::chrono::steady_clock::now();
+    {
+        int m = 2000;
+        int k = 2000;
+        int n = 2000;
+        int loop = 10;
+
+        ArTen<float> A({m, k});
+        ArTen<float> B({n, k});
+        ArTen<float> C({m, n});
+        Mat_RandFloat0to1(A);
+        Mat_RandFloat0to1(B);
+
+        for (int lo = 0; lo < loop; lo++) {
+            nn_MatmulLt_RowMajor(A.array_, B.array_, C.array_, m, k, n, 0, 0);
+        }
+    }
+    end = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    double t = elapsed_seconds.count(); // t number of seconds, represented as a `double`
+
+    printf("t = %f seconds\n", t);
 }
 
 int main()
@@ -121,4 +191,7 @@ int main()
 
     //My_Matmul_Demo();
     My_Matmul_RandomTestFull();
+
+    //My_Matmul_Prof_Eigen();
+    //My_Matmul_Prof_NNMatmulSimple();
 }
