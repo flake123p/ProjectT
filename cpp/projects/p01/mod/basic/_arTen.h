@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <vector>
 #include "_basic.h"
@@ -6,6 +7,7 @@
 template <typename T>
 class ArTen {
 public:
+    typedef T Scalar_t;
     size_t dims_;
     union {
         int prod_;
@@ -15,9 +17,12 @@ public:
     std::vector<int> stride_;
     T *array_; //storage
 
-    ArTen(const std::initializer_list<int>& shape) {
+    void Reset(const std::initializer_list<int>& shape) {
         //printf("list.size() = %ld\n", shape.size());
 
+        if (array_ != nullptr) {
+            free(array_);
+        }
         array_ = nullptr;
         
         dims_ = shape.size();
@@ -48,6 +53,12 @@ public:
 
         BASIC_ASSERT(shape_.size() == dims_);
         BASIC_ASSERT(stride_.size() == dims_);
+    };
+
+    ArTen(const std::initializer_list<int>& shape) {
+        //printf("list.size() = %ld\n", shape.size());
+        array_ = nullptr;
+        Reset(shape);
     };
 
     ~ArTen() {
@@ -112,7 +123,17 @@ public:
         return 0;
     };
 
-    void dump() {
+    // Matrix API
+    long rows() {
+        BASIC_ASSERT(dims_ == 2);
+        return (long)shape_[0];
+    }
+    long cols() {
+        BASIC_ASSERT(dims_ == 2);
+        return (long)shape_[1];
+    }
+
+    void dump(int dumpArray = 0) {
         printf("dims = %lu\n", dims_);
         printf("prod = %d\n", prod_);
 
@@ -127,6 +148,13 @@ public:
             printf("%d ", e);
         }
         printf("\n");
+
+        if (dumpArray) {
+            printf("array =\n");
+            for (int i = 0; i < prod_; i++) {
+                std::cout << array_[i] << std::endl;
+            }
+        }
     };
 
     template <typename TravFunc>

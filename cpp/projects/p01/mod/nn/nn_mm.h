@@ -106,7 +106,7 @@ int nn_Matmul_RowMajor(T *A, T *B, T *C, T *D, int m, int k, int n, int A_T, int
 template<typename T>
 int nn_MatmulLt_RowMajor(T *A, T *B, T *dst, int m, int k, int n, int A_T, int B_T)
 {
-    printf(">>> %s(), [%u,%u - %u,%u][AT=%u, BT=%u]\n", __func__, m, k, k, n, A_T, B_T);
+    //printf(">>> %s(), [%u,%u - %u,%u][AT=%u, BT=%u]\n", __func__, m, k, k, n, A_T, B_T);
     const T* f_A = (const T*)A;
     const T* f_B = (const T*)B;
     //uint32_t i, j, y, idc, idk;
