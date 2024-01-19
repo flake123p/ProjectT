@@ -101,15 +101,91 @@ void Float_Test_ShowBF16()
     printf("bf16 float is %f\n", bf16.ConvertToDouble());
 }
 
+long double Exp2(int exp) 
+{
+    constexpr long double two = 2.0;
+
+    long double ret = 1.0;
+    for (int e = 0; e < exp; e++) {
+        ret = ret * two;
+    }
+
+    return ret;
+}
+
+void Float_Test_Manual()
+{
+    struct GoldenFP32 {
+        uint32_t u;
+        float f;
+    };
+
+    struct GoldenFP32 goldFp32[] = {
+        {0x00000000, 0.0f},
+        {0x80000000, -0.0f},
+        {0x3f800000, 1.0f},
+        {0xbf800000, -1.0f},
+        {0x00000001, 1.401298e-45},
+        {0x80000001, -1.401298e-45},
+        {0x00400000, 5.877472e-39},
+        {0x80400000, -5.877472e-39},
+        {0x007fffff, 0.00000000000000000000000000000000000001175494210692},
+        {0x807fffff, -1.175494e-38},
+        {0x00800000, 1.175494e-38},
+        {0x80800000, -1.175494e-38},
+        {0x7f7fffff, 3.402823e+38},
+        {0x7f7fffff, -3.402823e+38},
+    };
+
+    Fp32Cell f32;
+    
+    // f32.sign = 0;
+    // f32.expo = 0x0;
+    // f32.frac = 0x7FFFFF;
+    f32.u = 0x007fffff;
+    //f32.f = 1.401298e-45;
+
+    printf("[TestMan] 0x%08X, %.50f, %e ... %e\n", f32.u, f32.f, f32.f, f32.Double());
+
+    for (size_t i = 0; i < sizeof(goldFp32)/sizeof(goldFp32[0]); i++) {
+        f32.u = goldFp32[i].u;
+        printf("%ld ... %d, %.50f, %.50f\n", i, ((float)f32.Double()==goldFp32[i].f), (float)f32.Double(), goldFp32[i].f);
+    }
+
+    // printf("%Lf\n", Exp2(0));
+    // printf("%Lf\n", Exp2(1));
+    // printf("%Lf\n", Exp2(2));
+    // printf("%Lf\n", Exp2(3));
+
+    // long double x = (long double)1.0 + ((long double)1.0/Exp2(23));
+
+    // long double y = (long double)1.0 / Exp2(127);
+
+    // // printf("[TestMan] %.50Lf, %Le\n", x, x);
+    // printf("[TestMan] %.50Lf, %Le\n", y, y);
+
+    // float a, b, c, d;
+
+    // a = 200000;
+    // //b = 0.008;
+    // b = 0.007; // disappear
+    // c = 0.007;
+    // d = 0.007;
+
+    // printf("%.20f\n", (a + b) + (c + d));
+}
+
 int main()
 {
     //mnist_for_c_example();
 
-    dump_float_limits();
+    //dump_float_limits();
     //Float_Test();
 
     //Float_Test_ShowBF16();
 
     Float_Test_Converter();
+
+    //Float_Test_Manual();
     return 0;
 }

@@ -137,6 +137,18 @@ struct FloatCell : public FloatCellLt<TypeF, TypeU, ExpoBits, FracBits> {
         TypeU curU = (TypeU)this->frac;
         TypeU MSB = (TypeU)1 << (FracBits - 1);
 
+        // Special
+        if (this->expo == 0) {
+            accu = 0;
+            expoReal = -126;
+            if (this->frac == 0) {
+                if (this->sign)
+                    return -0.0;
+                else
+                    return 0.0;
+            }
+        }
+
         for (int i = 0; i<FracBits; i++) {
             if (MSB & curU) {
                 accu += curDbl;
