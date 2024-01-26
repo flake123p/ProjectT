@@ -60,6 +60,8 @@ struct alignas(align) FloatCell : public FloatCellLt<TypeF, TypeU, ExpoBits, Fra
     //         TypeU sign : 1;
     //     };
     // };
+    const long expoMax = ((long)1 << (ExpoBits)) - 1;
+    const long fracMax = ((long)1 << (FracBits)) - 1;
     const int expoCmpl = (1 << (ExpoBits-1)) - 1;
     const int expoBits = ExpoBits;
     const int fracBits = FracBits;
@@ -182,43 +184,67 @@ using Tf32CellLt = FloatCellLt<float, uint32_t, 8, 10, 4>;  // need test the bit
 using Fp64CellLt = FloatCellLt<double, uint64_t, 11, 52, 8>;
 
 template<typename T1, typename T2>
-void FloatCellConverter(T1 &dst, T2 &src) {
+void FloatCellConverter(T1 &dst, T2 &src, int round = 1) {
     dst.sign = src.sign;
 
     if (src.expo == 0) {
         dst.expo = 0;
     } else {
-        dst.expo = ((int)src.expo) - src.expoCmpl + dst.expoCmpl;
+        long newExpo = ((long)src.expo) - src.expoCmpl + dst.expoCmpl;
+        //printf("%X %X %X %X\n", src.expo, src.expoCmpl, dst.expo, dst.expoCmpl);
+        if (newExpo < 0) {
+            dst.expo = 1;
+            dst.frac = 0;
+            return;
+        } else {
+            dst.expo = newExpo;
+        }
     }
     
     if (dst.fracBits >= src.fracBits) {
         dst.frac = ((decltype(dst.u))src.frac)<<(dst.fracBits - src.fracBits);
     } else {
-        decltype(src.u) sf = src.frac;
-        decltype(src.u) round = 1 << (src.fracBits - dst.fracBits - 1);
-        sf += round;
-        dst.frac = decltype(dst.u)(sf >> (src.fracBits - dst.fracBits));
+        if (round && src.fracBits >= dst.fracBits + 1) {
+            decltype(src.u) sf = src.frac;
+            decltype(src.u) round = 1 << (src.fracBits - dst.fracBits - 1);
+            sf += round;
+            if (sf >> src.fracBits) {
+                //overflow
+                //printf("OVERFLOW\n");
+                dst.frac = 0;
+                if (dst.expo == dst.expoMax - 1) {
+                    dst.frac = dst.fracMax;
+                } else {
+                    dst.expo++;
+                    dst.frac = decltype(dst.u)(sf >> (src.fracBits - dst.fracBits));
+                }
+            } else {
+                dst.frac = decltype(dst.u)(sf >> (src.fracBits - dst.fracBits));
+            }
+        } else {
+            dst.frac = decltype(dst.u)(src.frac >> (src.fracBits - dst.fracBits));
+        }
     }
 };
 
-inline float f16_to_f32(uint16_t f16u) {
+inline float f16_to_f32(uint16_t f16u, int round = 1) {
     Fp32Cell ret;
     Fp16Cell input;
     input.u = f16u;
-    FloatCellConverter(ret, input);
+    FloatCellConverter(ret, input, round);
     return ret.f;
 }
-inline float f16u_to_f32(uint16_t f16u) {
-    return f16_to_f32(f16u);
+inline float f16u_to_f32(uint16_t f16u, int round = 1) {
+    return f16_to_f32(f16u, round);
 }
 
-inline uint16_t f32_to_f16(float f32) {
+inline uint16_t f32_to_f16(float f32, int round = 1) {
     Fp32Cell input;
     Fp16Cell ret;
     input.f = f32;
-    FloatCellConverter(ret, input);
+    FloatCellConverter(ret, input, round);
     return ret.u;
 }
-inline uint16_t f32_to_f16u(float f32) {
-    return f32_to_f16(f32);
+inline uint16_t f32_to_f16u(float f32, int round = 1) {
+    return f32_to_f16(f32, round);
 }

@@ -235,6 +235,26 @@ void Float_Test_Manual()
     // printf("%.20f\n", (a + b) + (c + d));
 }
 
+void Float_Test_Case00() 
+{
+    Fp32Cell a32, b32;
+    a32.f = 127.4375;
+    b32.f = 0.534180;
+    Fp16Cell a16, b16;
+    FloatCellConverter(a16, a32);
+    FloatCellConverter(b16, b32);
+
+    printf("a32 = %f (0x%08X), b32 = %f\n", a32.f, a32.u, b32.f);
+
+    printf("a16 = %f (0x%04X), b16 = %f\n", a16.Double(), a16.u, b16.Double());
+
+    float a = f16u_to_f32(a16.u);
+    float b = f16u_to_f32(b16.u);
+    Fp16Cell result;
+    result.u = f32_to_f16u(a + b);
+    printf("Result = %f\n", result.Double());
+}
+
 int main()
 {
     //mnist_for_c_example();
@@ -244,8 +264,9 @@ int main()
 
     //Float_Test_ShowBF16();
 
-    Float_Test_Converter();
+    //Float_Test_Converter();
 
     //Float_Test_Manual();
+    Float_Test_Case00();
     return 0;
 }
