@@ -1,5 +1,12 @@
 #include <iostream>
 #include <Eigen/Dense>
+/*
+    Exclude Eigen in vscode:
+
+    "files.exclude": {
+        "cpp/projects/p01/mod/eigen34" : false,
+    },
+*/
 
 /*
 https://eigen.tuxfamily.org/dox/group__TutorialMatrixArithmetic.html

@@ -36,8 +36,8 @@ inline void dump_float_limits () {
     
 */
 
-template<typename TypeF, typename TypeU, int ExpoBits, int FracBits>
-struct FloatCellLt {
+template<typename TypeF, typename TypeU, int ExpoBits, int FracBits, int align>
+struct alignas(align) FloatCellLt {
     union {
         TypeF f;
         TypeU u;
@@ -49,8 +49,8 @@ struct FloatCellLt {
     };
 };
 
-template<typename TypeF, typename TypeU, int ExpoBits, int FracBits>
-struct FloatCell : public FloatCellLt<TypeF, TypeU, ExpoBits, FracBits> {
+template<typename TypeF, typename TypeU, int ExpoBits, int FracBits, int align>
+struct alignas(align) FloatCell : public FloatCellLt<TypeF, TypeU, ExpoBits, FracBits, align> {
     // union {
     //     TypeF f;
     //     TypeU u;
@@ -169,24 +169,56 @@ struct FloatCell : public FloatCellLt<TypeF, TypeU, ExpoBits, FracBits> {
     }
 };
 
-using Bf16Cell = FloatCell<uint16_t, uint16_t, 8, 7>;
-using Fp16Cell = FloatCell<uint16_t, uint16_t, 5, 10>;
-using Fp32Cell = FloatCell<float, uint32_t, 8, 23>;
-using Tf32Cell = FloatCell<float, uint32_t, 8, 10>;  // need test the bit-fields
-using Fp64Cell = FloatCell<double, uint64_t, 11, 52>;
+using Bf16Cell = FloatCell<uint16_t, uint16_t, 8, 7, 2>;
+using Fp16Cell = FloatCell<uint16_t, uint16_t, 5, 10, 2>;
+using Fp32Cell = FloatCell<float, uint32_t, 8, 23, 4>;
+using Tf32Cell = FloatCell<float, uint32_t, 8, 10, 4>;  // need test the bit-fields
+using Fp64Cell = FloatCell<double, uint64_t, 11, 52, 8>;
 
-using Bf16CellLt = FloatCellLt<uint16_t, uint16_t, 8, 7>;
-using Fp16CellLt = FloatCellLt<uint16_t, uint16_t, 5, 10>;
-using Fp32CellLt = FloatCellLt<float, uint32_t, 8, 23>;
-using Tf32CellLt = FloatCellLt<float, uint32_t, 8, 10>;  // need test the bit-fields
-using Fp64CellLt = FloatCellLt<double, uint64_t, 11, 52>;
+using Bf16CellLt = FloatCellLt<uint16_t, uint16_t, 8, 7, 2>;
+using Fp16CellLt = FloatCellLt<uint16_t, uint16_t, 5, 10, 2>;
+using Fp32CellLt = FloatCellLt<float, uint32_t, 8, 23, 4>;
+using Tf32CellLt = FloatCellLt<float, uint32_t, 8, 10, 4>;  // need test the bit-fields
+using Fp64CellLt = FloatCellLt<double, uint64_t, 11, 52, 8>;
 
 template<typename T1, typename T2>
 void FloatCellConverter(T1 &dst, T2 &src) {
     dst.sign = src.sign;
-    dst.expo = ((int)src.expo) - src.expoCmpl + dst.expoCmpl;
-    if (dst.fracBits >= src.fracBits)
+
+    if (src.expo == 0) {
+        dst.expo = 0;
+    } else {
+        dst.expo = ((int)src.expo) - src.expoCmpl + dst.expoCmpl;
+    }
+    
+    if (dst.fracBits >= src.fracBits) {
         dst.frac = ((decltype(dst.u))src.frac)<<(dst.fracBits - src.fracBits);
-    else
-        dst.frac = decltype(dst.u)(src.frac >> (src.fracBits - dst.fracBits));
+    } else {
+        decltype(src.u) sf = src.frac;
+        decltype(src.u) round = 1 << (src.fracBits - dst.fracBits - 1);
+        sf += round;
+        dst.frac = decltype(dst.u)(sf >> (src.fracBits - dst.fracBits));
+    }
 };
+
+inline float f16_to_f32(uint16_t f16u) {
+    Fp32Cell ret;
+    Fp16Cell input;
+    input.u = f16u;
+    FloatCellConverter(ret, input);
+    return ret.f;
+}
+inline float f16u_to_f32(uint16_t f16u) {
+    return f16_to_f32(f16u);
+}
+
+inline uint16_t f32_to_f16(float f32) {
+    Fp32Cell input;
+    Fp16Cell ret;
+    input.f = f32;
+    FloatCellConverter(ret, input);
+    return ret.u;
+}
+inline uint16_t f32_to_f16u(float f32) {
+    return f32_to_f16(f32);
+}

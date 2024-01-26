@@ -51,10 +51,34 @@ void Float_Test_Converter()
     FloatCellConverter(bf16, f64);
     FloatCellConverter(f16, f64);
     FloatCellConverter(f32, f64);
+    printf("Ori=%f, F32=%f, F16=%f, BF16=%f\n", x, f32.Double(), f16.Double(), bf16.Double());
+    x = 0;
+    f64.f = x;
+    FloatCellConverter(bf16, f64);
+    FloatCellConverter(f16, f64);
+    FloatCellConverter(f32, f64);
+    printf("Ori=%f, F32=%f, F16=%f, BF16=%f\n", x, f32.Double(), f16.Double(), bf16.Double());
+    x = -0;
+    f64.f = x;
+    FloatCellConverter(bf16, f64);
+    FloatCellConverter(f16, f64);
+    FloatCellConverter(f32, f64);
     printf("Ori=%f, F32=%f, F16=%f, BF16=%f\n\n", x, f32.Double(), f16.Double(), bf16.Double());
 
     float y = -56.77;
     printf("FP32 to FP64 & FP16 & BF16\n");
+    f32.f = y;
+    FloatCellConverter(bf16, f32);
+    FloatCellConverter(f16, f32);
+    FloatCellConverter(f64, f32);
+    printf("Ori=%f, F64=%f, F16=%f, BF16=%f\n", y, f64.Double(), f16.Double(), bf16.Double());
+    y = 0;
+    f32.f = y;
+    FloatCellConverter(bf16, f32);
+    FloatCellConverter(f16, f32);
+    FloatCellConverter(f64, f32);
+    printf("Ori=%f, F64=%f, F16=%f, BF16=%f\n", y, f64.Double(), f16.Double(), bf16.Double());
+    y = -0;
     f32.f = y;
     FloatCellConverter(bf16, f32);
     FloatCellConverter(f16, f32);
@@ -65,7 +89,20 @@ void Float_Test_Converter()
     printf("FP16 to FP64 & FP32 & BF16\n");
     f32.f = y;
     FloatCellConverter(f16, f32);
-
+    FloatCellConverter(bf16, f16);
+    FloatCellConverter(f32, f16);
+    FloatCellConverter(f64, f16);
+    printf("Ori=%f, F64=%f, F32=%f, BF16=%f\n", f16.Double(), f64.Double(), f32.Double(), bf16.Double());
+    y = 0;
+    f32.f = y;
+    FloatCellConverter(f16, f32);
+    FloatCellConverter(bf16, f16);
+    FloatCellConverter(f32, f16);
+    FloatCellConverter(f64, f16);
+    printf("Ori=%f, F64=%f, F32=%f, BF16=%f\n", f16.Double(), f64.Double(), f32.Double(), bf16.Double());
+    y = -0;
+    f32.f = y;
+    FloatCellConverter(f16, f32);
     FloatCellConverter(bf16, f16);
     FloatCellConverter(f32, f16);
     FloatCellConverter(f64, f16);
@@ -75,11 +112,34 @@ void Float_Test_Converter()
     printf("BF16 to FP64 & FP32 & FP16\n");
     f32.f = y;
     FloatCellConverter(bf16, f32);
-
+    FloatCellConverter(f16, bf16);
+    FloatCellConverter(f32, bf16);
+    FloatCellConverter(f64, bf16);
+    printf("Ori=%f, F64=%f, F32=%f, F16=%f\n", bf16.Double(), f64.Double(), f32.Double(), f16.Double());
+    y = 0;
+    f32.f = y;
+    FloatCellConverter(bf16, f32);
+    FloatCellConverter(f16, bf16);
+    FloatCellConverter(f32, bf16);
+    FloatCellConverter(f64, bf16);
+    printf("Ori=%f, F64=%f, F32=%f, F16=%f\n", bf16.Double(), f64.Double(), f32.Double(), f16.Double());
+    y = -0;
+    f32.f = y;
+    FloatCellConverter(bf16, f32);
     FloatCellConverter(f16, bf16);
     FloatCellConverter(f32, bf16);
     FloatCellConverter(f64, bf16);
     printf("Ori=%f, F64=%f, F32=%f, F16=%f\n\n", bf16.Double(), f64.Double(), f32.Double(), f16.Double());
+
+    {
+        float y = -56.77;
+        float result;
+        Fp16Cell f16;
+        f16.u = f32_to_f16(y);
+        result = f16_to_f32(f16.u);
+
+        printf("Ori=%f, toF16=%f, toF16toF32=%f\n\n", y, f16.Double(), result);
+    }
 }
 
 void Float_Test_ShowBF16()
