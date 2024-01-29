@@ -47,7 +47,11 @@ def py754_synthesize_hex_str(hex_str, type_str):
     fracValue = fracValue >> fracShift
     expoCmpl = (1 << expoShift) - 1
     
-    e = (e + expoCmpl) << fracBits
+    if e == 0 and f == "0":
+        e = 0
+        fracValue = 0
+    else:
+        e = (e + expoCmpl) << fracBits
     
     total = signValue + e + fracValue
     
@@ -65,7 +69,7 @@ def py754_synthesize_hex_str(hex_str, type_str):
 def py754_parse_hex_str(hex_str):
         s = hex_str.split('x')
         if len(s) != 2:
-            print("[FAILED] Unknown hex string:", s)
+            print("[FAILED] Unknown hex string:", s, hex_str)
             exit()
         #print(s[0], s[1])
         signStr = s[0]

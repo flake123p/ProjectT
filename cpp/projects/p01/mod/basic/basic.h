@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "My_Macros.h"
+
+
 #ifndef byte
 typedef unsigned char byte;
 #endif
@@ -16,6 +19,7 @@ extern "C" {
 #define USE_MY_ASSERT (1)
 #if USE_MY_ASSERT
 #define BASIC_ASSERT(a) if(a){;}else{printf("[FAILED] Assertion failed: in %s(), line %d\n",__FUNCTION__,__LINE__);exit(1);}
+#define BASIC_ASSERT_NOEXIT(a) if(a){;}else{printf("[FAILED] Assertion failed: in %s(), line %d\n",__FUNCTION__,__LINE__);}
 #else
 #include <assert.h>
 #define BASIC_ASSERT assert
