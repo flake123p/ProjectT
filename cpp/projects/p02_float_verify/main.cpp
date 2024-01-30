@@ -6,11 +6,11 @@
 
 #include "_float.h"
 
-#define DBG_PRINT_EN ( 1 )
-#if DBG_PRINT_EN
-#define DBG_PRINT printf
+#define DBG_MSG_EN ( 1 )
+#if DBG_MSG_EN
+#define DBG_MSG printf
 #else
-#define DBG_PRINT(...)
+#define DBG_MSG(...)
 #endif
 
 
@@ -87,10 +87,10 @@ void UIntToFloat_Test_Impl (const char *name, Golden_T golden_ary, Len_T len, Fu
         tempF = (golden_float_t)toFloat(golden_ary[i].u);
         same = (golden_ary[i].f == tempF);
 
-        //DBG_PRINT("%s, %d, [G]%.60f, [MY]%.60f, 0x%08X, %lu\n", name, same, golden_ary[i].f, tempF, fcell.u, i);
+        //DBG_MSG("%s, %d, [G]%.60f, [MY]%.60f, 0x%08X, %lu\n", name, same, golden_ary[i].f, tempF, fcell.u, i);
 
         if (!same) {
-            DBG_PRINT("%s, %d, [G]%.60f, [MY]%.60f, 0x%08X, %lu\n", name, same, golden_ary[i].f, tempF, golden_ary[i].u, i);
+            DBG_MSG("%s, %d, [G]%.60f, [MY]%.60f, 0x%08X, %lu\n", name, same, golden_ary[i].f, tempF, golden_ary[i].u, i);
             BASIC_ASSERT_NOEXIT(same);
         }
     }
@@ -121,7 +121,7 @@ void UIntToFloat_Test_F32 () {
     //     fp32c.u = F32_1_to_NINF[i].u;
     //     tempF32 = (float)fp32c.Double();
     //     same = F32_1_to_NINF[i].f==tempF32;
-    //     DBG_PRINT("%d, %f, %f, 0x%08X\n", same, F32_1_to_NINF[i].f, tempF32, fp32c.u);
+    //     DBG_MSG("%d, %f, %f, 0x%08X\n", same, F32_1_to_NINF[i].f, tempF32, fp32c.u);
     //     BASIC_ASSERT(same);
     // }
 }
@@ -140,5 +140,8 @@ int main()
 {
     UIntToFloat_Test_F32();
     UIntToFloat_Test_F16();
+
+    int s = size_of_array(F16_1_to_0);
+    printf("s = %d\n", s);
     return 0;
 }

@@ -12,7 +12,14 @@
 // #define LENGTH_OF_ARRAY         GET_ARRAY_LEN
 // #define LEN_OF_ARRAY            GET_ARRAY_LEN
 
-// template<typename T1>
-// auto _ARRAY_LEN(T1 array) {
-//         return sizeof(array) / sizeof(array[0]);
-// }
+
+/*
+        Array Size C++ Version
+
+        https://stackoverflow.com/questions/65475688/understanding-expression-does-not-compute-the-number-of-elements-in-this-array
+*/
+template<typename T, size_t N>
+constexpr size_t size_of_array( T (&_arr)[N]) {
+    (void)_arr;
+    return N;
+}

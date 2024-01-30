@@ -7,8 +7,8 @@ void dump_int_limits() {
 
     printf("The number of bits in a byte %d\n", CHAR_BIT);
 
-    printf("The minimum value of SIGNED CHAR = %d\n", SCHAR_MIN);
-    printf("The maximum value of SIGNED CHAR =  %d\n", SCHAR_MAX);
+    printf("The minimum value of SIGNED CHAR   = %d\n", SCHAR_MIN);
+    printf("The maximum value of SIGNED CHAR   =  %d\n", SCHAR_MAX);
     printf("The maximum value of UNSIGNED CHAR = %d\n", UCHAR_MAX);
 
     printf("The minimum value of SHORT INT = %d\n", SHRT_MIN);
