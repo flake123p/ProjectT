@@ -206,8 +206,8 @@ void FloatCellConverter(T1 &dst, T2 &src, int round = 1) {
     } else {
         if (round && src.fracBits >= dst.fracBits + 1) {
             decltype(src.u) sf = src.frac;
-            decltype(src.u) round = 1 << (src.fracBits - dst.fracBits - 1);
-            sf += round;
+            decltype(src.u) roundFrac = 1 << (src.fracBits - dst.fracBits - 1);
+            sf += roundFrac;
             if (sf >> src.fracBits) {
                 //overflow
                 //printf("OVERFLOW\n");
@@ -227,24 +227,18 @@ void FloatCellConverter(T1 &dst, T2 &src, int round = 1) {
     }
 };
 
-inline float f16_to_f32(uint16_t f16u, int round = 1) {
+inline float f16u_to_f32(uint16_t f16u, int round = 1) {
     Fp32Cell ret;
     Fp16Cell input;
     input.u = f16u;
     FloatCellConverter(ret, input, round);
     return ret.f;
 }
-inline float f16u_to_f32(uint16_t f16u, int round = 1) {
-    return f16_to_f32(f16u, round);
-}
 
-inline uint16_t f32_to_f16(float f32, int round = 1) {
+inline uint16_t f32_to_f16u(float f32, int round = 1) {
     Fp32Cell input;
     Fp16Cell ret;
     input.f = f32;
     FloatCellConverter(ret, input, round);
     return ret.u;
-}
-inline uint16_t f32_to_f16u(float f32, int round = 1) {
-    return f32_to_f16(f32, round);
 }

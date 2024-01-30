@@ -135,8 +135,8 @@ void Float_Test_Converter()
         float y = -56.77;
         float result;
         Fp16Cell f16;
-        f16.u = f32_to_f16(y);
-        result = f16_to_f32(f16.u);
+        f16.u = f32_to_f16u(y);
+        result = f16u_to_f32(f16.u);
 
         printf("Ori=%f, toF16=%f, toF16toF32=%f\n\n", y, f16.Double(), result);
     }
