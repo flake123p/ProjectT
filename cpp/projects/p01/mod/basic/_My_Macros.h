@@ -23,3 +23,9 @@ constexpr size_t size_of_array( T (&_arr)[N]) {
     (void)_arr;
     return N;
 }
+
+template<typename T, size_t N>
+constexpr size_t Len( T (&_arr)[N]) {
+    (void)_arr;
+    return N;
+}

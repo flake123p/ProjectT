@@ -40,8 +40,8 @@ struct Multinomial {
     Multinomial(float *arr, size_t len) : accuLen(len) {
         Clear();
         accu = (float *)malloc(sizeof(float)*len);
-        printf("len %lu\n", len);
-        printf("accuLen %lu\n", accuLen);
+        // printf("len %lu\n", len);
+        // printf("accuLen %lu\n", accuLen);
         float sum = SumOfArray(arr, len);
         if (sum == 0) {
             BASIC_ASSERT(0);
@@ -52,9 +52,9 @@ struct Multinomial {
         for (size_t i = 1; i < len; i++) {
             accu[i] += accu[i-1];
         }
-        for (size_t i = 0; i < len; i++) {
-            printf("%f\n", accu[i]);
-        }
+        // for (size_t i = 0; i < len; i++) {
+        //     printf("%f\n", accu[i]);
+        // }
     };
     ~Multinomial() {
         Clear();

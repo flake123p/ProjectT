@@ -9,3 +9,5 @@ void Float_Test_Manual();
 void Float_Test_Case00();
 
 void Rand_Probability_Test();
+
+void Stat_Test();

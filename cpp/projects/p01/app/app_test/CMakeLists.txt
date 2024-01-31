@@ -22,6 +22,13 @@ SET_SOURCE_FILES_PROPERTIES(${SRC} PROPERTIES LANGUAGE CXX )
 set(CMAKE_CXX_FLAGS "-O2 -Wall -Wextra")
 add_executable(a.out ${SRC})
 
+target_include_directories(
+    a.out PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${MAIN_PROJECT_DIR}/mod/basic"
+    "${MAIN_PROJECT_DIR}/mod/stat"
+)
+
 include(${MAIN_PROJECT_DIR}/modlists/mnist_for_c/mnist_for_c.cmake)
 mnist_for_c_cmake(a.out) # include, subdirectory, link
 
