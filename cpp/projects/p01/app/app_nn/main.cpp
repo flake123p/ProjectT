@@ -7,11 +7,11 @@ void Demo_mnist_to_png()
 {
     load_mnist();
 
-    byte *ptr = (byte *)calloc(1*28*28, 1);
+    u8 *ptr = (u8 *)calloc(1*28*28, 1);
 
     for (int i=0; i<28*28; i++) {
         uint32_t val32 = (uint32_t)(test_image[0][i] * 255.0);
-        ptr[i] = (byte)val32;
+        ptr[i] = (u8)val32;
     }
 
     OcvUtil_BytesToImag1(ptr, 28, 28, "my.png");
@@ -26,6 +26,25 @@ void Demo_mnist_to_png()
 #include "../../data/mnist/local_w1.txt"
 #include "../../data/mnist/local_w2.txt"
 #include "../../data/mnist/local_w3.txt"
+/*
+loss:  126.92801
+loss:  19.239277
+loss:  6.3718195
+loss:  12.566687
+loss:  9.149878
+loss:  14.420612
+loss:  15.936183
+loss:  3.7931373
+loss:  0.3377211
+loss:  7.5486393
+loss:  3.2628403
+loss:  0.275259
+loss:  7.8895726
+loss:  4.5271087
+loss:  0.0
+[Test]  Success rate:  0.9539
+[Train] Success rate:  0.97687274
+*/
 void Demo_mnist_inference()
 {
     load_mnist();
