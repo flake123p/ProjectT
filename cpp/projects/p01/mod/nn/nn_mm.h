@@ -183,3 +183,72 @@ int nn_MatmulLt_RowMajor(T *A, T *B, T *dst, int m, int k, int n, int A_T, int B
 
     return 0;
 }
+
+template<typename T>
+int nn_MatmulLt_RowMajorX(T *A, T *B, T *dst, int m, int k, int n, int A_T, int B_T)
+{
+    //printf(">>> %s(), [%u,%u - %u,%u][AT=%u, BT=%u]\n", __func__, m, k, k, n, A_T, B_T);
+    const T* f_A = (const T*)A;
+    const T* f_B = (const T*)B;
+
+    {
+        if(A_T == 0 && B_T == 0) {
+            for (int idm = 0; idm < m; idm++) {
+                for (int idn = 0; idn < n; idn++) {
+                    T sum = 0.0;
+                    for (int idk = 0; idk < k; idk++) {
+                        if (f_A[(idm*k) + idk] + f_B[(idk*n) + idn] >= 1.0f) {
+                            sum++;
+                        }
+                    }
+                    *dst = sum;
+                    dst++;
+                }
+            }
+        }
+        else if(A_T == 0 && B_T == 1) {
+            for (int idm = 0; idm < m; idm++) {
+                for (int idn = 0; idn < n; idn++) {
+                    T sum = 0.0;
+                    for (int idk = 0; idk < k; idk++) {
+                        if (f_A[(idm*k) + idk] * f_B[(idn*k) + idk] >= 1.0f) {
+                            sum++;
+                        }
+                    }
+                    *dst = sum;
+                    dst++;
+                }
+            }
+        }
+        else if(A_T == 1 && B_T == 0) {
+            for (int idm = 0; idm < m; idm++) {
+                for (int idn = 0; idn < n; idn++) {
+                    T sum = 0.0;
+                    for (int idk = 0; idk < k; idk++) {
+                        if (f_A[(idk*m) + idm] * f_B[(idk*n) + idn] >= 1.0f) {
+                            sum++;
+                        }
+                    }
+                    *dst = sum;
+                    dst++;
+                }
+            }
+        }
+        else if(A_T == 1 && B_T == 1) {
+            for (int idm = 0; idm < m; idm++) {
+                for (int idn = 0; idn < n; idn++) {
+                    T sum = 0.0;
+                    for (int idk = 0; idk < k; idk++) {
+                        if (f_A[(idk*m) + idm] * f_B[(idn*k) + idk] >= 1.0f) {
+                            sum++;
+                        }
+                    }
+                    *dst = sum;
+                    dst++;
+                }
+            }
+        }
+    }
+
+    return 0;
+}

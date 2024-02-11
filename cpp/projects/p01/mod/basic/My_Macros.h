@@ -374,6 +374,33 @@ http://www.codeproject.com/Articles/567335/EssentialplusMacrosplusforplusCplusPr
 #define U16ADDR(a)           (u16 *)ADDR(a)
 #define U32ADDR(a)           (u32 *)ADDR(a)
 
+
+
+
+
+
+
+
+#define ARRAYDUMPF(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = %f\n", xi, (a)[xi]);}
+#define ARRAYDUMPC(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = %c\n", xi, (a)[xi]);}
+#define ARRAYDUMPS(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = %s\n", xi, (a)[xi]);}
+#define ARRAYDUMPD(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = %2d;\n", xi, (a)[xi]);}
+#define ARRAYDUMPU(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = %2u\n", xi, (a)[xi]);}
+#define ARRAYDUMPX(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = 0x%X;\n", xi, (uint8_t)(a)[xi]);}
+#define ARRAYDUMPX2(a,length) printf(#a" = ");for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf("%02X ", (uint32_t)((a)[xi]));}printf("\n");
+#define ARRAYDUMPX3(a,length) printf(#a" =\n");for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf("%02X ", (uint32_t)((a)[xi]));if(xi%16==15){printf("\n");}}printf("\n");
+#define ARRAYDUMPP(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = %p\n", xi, (void *)(a)[xi]);}
+#define ARRAYDUMPA(a,length) for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf(#a"[%d] = 0x%08X\n", xi, POINTER_TO_U32((a)[xi]));}
+
+#define ARRAYDUMPX2_VERBOS(a,length) printf(#a" = ");for(unsigned int xi=0; xi<(unsigned int)(length); xi++){printf("0x%02X, ", (uint32_t)((a)[xi]));}printf("\n");
+
+
+
+
+
+
+
+
 #define _MY_MACROS_H_INCLUDED_
 #endif//_MY_MACROS_H_INCLUDED_
 

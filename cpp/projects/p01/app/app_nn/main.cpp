@@ -17,84 +17,36 @@ void Demo_mnist_to_png()
     OcvUtil_BytesToImag1(ptr, 28, 28, "my.png");
 }
 
-
-#include "../../data/mnist/local_b0.txt"
-#include "../../data/mnist/local_b1.txt"
-#include "../../data/mnist/local_b2.txt"
-#include "../../data/mnist/local_b3.txt"
-#include "../../data/mnist/local_w0.txt"
-#include "../../data/mnist/local_w1.txt"
-#include "../../data/mnist/local_w2.txt"
-#include "../../data/mnist/local_w3.txt"
-/*
-loss:  126.92801
-loss:  19.239277
-loss:  6.3718195
-loss:  12.566687
-loss:  9.149878
-loss:  14.420612
-loss:  15.936183
-loss:  3.7931373
-loss:  0.3377211
-loss:  7.5486393
-loss:  3.2628403
-loss:  0.275259
-loss:  7.8895726
-loss:  4.5271087
-loss:  0.0
-[Test]  Success rate:  0.9539
-[Train] Success rate:  0.97687274
-*/
-void Demo_mnist_inference()
+void Demo_likely_hood()
 {
-    load_mnist();
+    float a[] = {0.0, 0.0, 0.0, 1.0, 1.0, 1.0};
+    float b[] = {0.0, 0.0, 1.0, 1.0, 1.0, 1.0};
 
-    float *buf1 = (float *)malloc(200 * sizeof(float));
-    float *buf2 = (float *)malloc(200 * sizeof(float));
+    float x[] = {0.0, 0.2, 0.4, 0.6, 0.8, 1.0};
+    float y[] = {0.0, 0.1, 0.3, 0.7, 0.9, 1.0};
+    printf("x a -> %f\n", nn_likely_hood(x, a, Len(x)));
+    printf("x b -> %f\n", nn_likely_hood(x, b, Len(x)));
+    printf("y a -> %f\n", nn_likely_hood(y, a, Len(x)));
+    printf("y b -> %f\n", nn_likely_hood(y, b, Len(x)));
 
-    ArTen<float> testImages({NUM_TEST, SIZE784});
-    ArTen<float> trainImages({NUM_TRAIN, SIZE784});
-
-    double *pTest_image = (double *)test_image;
-    double *pTrain_image = (double *)train_image;
-
-    testImages.travers_array([&](int idx, float *inst) {
-        *inst = (float)pTest_image[idx];
-    });
-    trainImages.travers_array([&](int idx, float *inst) {
-        *inst = (float)pTrain_image[idx];
-    });
-
-    printf("%f %f\n", test_image[0][10*28+20], test_image[0][10*28+21]);
-    printf("%f %f\n", testImages(0, 10*28+20), testImages(0, 10*28+20));
-
-    printf("%d\n", test_label[0]);
-    printf("%d\n", train_label[0]);
-
-    nn_MatmulLt_RowMajor<float>(&testImages(0, 0), local_w0_storage, buf1, 1, 784, 200, 0, 1);
-    nn_vecAdd(buf1, local_b0_storage, buf1, 200);
-    nn_relu(buf1, buf1, 200);
-    nn_MatmulLt_RowMajor<float>(buf1, local_w1_storage, buf2, 1, 200, 200, 0, 1);
-    nn_vecAdd(buf2, local_b1_storage, buf2, 200);
-    nn_relu(buf2, buf2, 200);
-    nn_MatmulLt_RowMajor<float>(buf2, local_w2_storage, buf1, 1, 200, 200, 0, 1);
-    nn_vecAdd(buf1, local_b2_storage, buf1, 200);
-    nn_relu(buf1, buf1, 200);
-    nn_MatmulLt_RowMajor<float>(buf1, local_w3_storage, buf2, 1, 200, 10, 0, 1);
-    nn_vecAdd(buf2, local_b3_storage, buf2, 10);
-
-    int max = nn_argMax(buf2, 10);
-    printf("max = %d\n", max);
-
-
-    free(buf1);
-    free(buf2);
+    float a3[] = {0.0, 0.0, 0.0, 1.0, 0.0, 0.0};
+    printf("x a3 -> %f\n", nn_likely_hood(x, a3, Len(x)));
+    printf("y a3 -> %f\n", nn_likely_hood(y, a3, Len(x)));
 }
 
 int main()
 {
     //example();
     //Demo_mnist_to_png();
-    Demo_mnist_inference();
+    //Demo_mnist_inference();
+    {
+        // extern void Demo_mnist_inference_all();
+        // Demo_mnist_inference_all();
+
+        extern void Demo_mnist_X();
+        Demo_mnist_X();
+
+        //Demo_likely_hood();
+    }
     return 0;
 }
