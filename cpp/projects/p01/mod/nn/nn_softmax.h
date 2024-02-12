@@ -14,11 +14,41 @@ void nn_softmax_11(T *dst, T *src, size_t num) {
 
     for (size_t i = 0; i < num; i++) {
         sum += nn_softmax_op_11(src[i]);
-        printf("src[%lu] = %f\n", i, nn_softmax_op_11(src[i]));
+        // printf("src[%lu] = %f\n", i, nn_softmax_op_11(src[i]));
     }
 
     for (size_t i = 0; i < num; i++) {
-        printf("[%lu] = %f / %f / %f\n", i, src[i], nn_softmax_op_11(src[i])/sum, sum);
+        // printf("[%lu] = %f / %f / %f\n", i, src[i], nn_softmax_op_11(src[i])/sum, sum);
         dst[i] = nn_softmax_op_11(src[i]) / sum;
+    }
+}
+
+template<typename T>
+void nn_softmax(T *dst, T *src, size_t num) {
+    T sum = (T)0;
+
+    for (size_t i = 0; i < num; i++) {
+        sum += exp(src[i]);
+        // printf("src[%lu] = %f\n", i, nn_softmax_op_11(src[i]));
+    }
+
+    for (size_t i = 0; i < num; i++) {
+        // printf("[%lu] = %f / %f / %f\n", i, src[i], nn_softmax_op_11(src[i])/sum, sum);
+        dst[i] = exp(src[i]) / sum;
+    }
+}
+
+template<typename T>
+void nn_softmax(T *dst, T *src, size_t num, float base) {
+    T sum = (T)0;
+
+    for (size_t i = 0; i < num; i++) {
+        sum += pow(base, src[i]);
+        // printf("src[%lu] = %f\n", i, nn_softmax_op_11(src[i]));
+    }
+
+    for (size_t i = 0; i < num; i++) {
+        // printf("[%lu] = %f / %f / %f\n", i, src[i], nn_softmax_op_11(src[i])/sum, sum);
+        dst[i] = pow(base, src[i]) / sum;
     }
 }

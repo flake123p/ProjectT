@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include "_basic.h"
+#include <cstring>
+#include "_rand.h"
 
 template <typename T>
 class ArTen {
@@ -54,6 +56,11 @@ public:
         BASIC_ASSERT(shape_.size() == dims_);
         BASIC_ASSERT(stride_.size() == dims_);
     };
+
+    // Not Now
+    // ArTen() {
+    //     array_ = nullptr;
+    // }
 
     ArTen(const std::initializer_list<int>& shape) {
         //printf("list.size() = %ld\n", shape.size());
@@ -170,4 +177,64 @@ public:
             *inst = (float)2266;
         });
     */
+    
+    void copy_array(ArTen &src) {
+        BASIC_ASSERT(this->prod_ == src.prod_);
+        memcpy(this->array_, src.array_, sizeof(T)*prod_);
+    };
+
+    void pickle_array(const char *file_name) {
+        FILE * pFile;
+        pFile = fopen (file_name, "wb");
+
+        BASIC_ASSERT(pFile != NULL);
+
+        auto result = fwrite(array_, sizeof(T), prod_, pFile);
+        BASIC_ASSERT((int)result == prod_);
+        
+
+        if (pFile!=NULL)
+        {
+            fclose (pFile);
+        }
+    };
+
+    void unpickle_array(const char *file_name) {
+        FILE * pFile;
+        pFile = fopen (file_name, "rb");
+
+        BASIC_ASSERT(pFile != NULL);
+
+        auto result = fread(array_, sizeof(T), prod_, pFile);
+        BASIC_ASSERT((int)result == prod_);
+        
+
+        if (pFile!=NULL)
+        {
+            fclose (pFile);
+        }
+    };
+
+    template <typename AssignFunc>
+    void random(int rand_num, AssignFunc f) {
+        size_t rand_posi;
+
+        for (int i = 0; i < rand_num; i++) {
+            rand_posi = (size_t)rand() % prod_;
+            f(rand_posi, &array_[rand_posi]);
+        }
+    }
+
+    template <typename AssignFunc>
+    void random(float threshold, int rand_num, AssignFunc f) {
+        size_t rand_posi;
+
+        for (int i = 0; i < rand_num; i++) {
+            float r = RandFloat0to1<float>();
+            if (r <= threshold) {
+                rand_posi = (size_t)rand() % prod_;
+                f(rand_posi, &array_[rand_posi]);
+            }
+        }
+    }
 };
