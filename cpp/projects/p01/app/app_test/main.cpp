@@ -15,7 +15,7 @@ int main()
     //Float_Test_Manual();
     //Float_Test_Case00();
 
-    //Rand_Probability_Test();
-    Stat_Test();
+    Rand_Probability_Test();
+    //Stat_Test();
     return 0;
 }

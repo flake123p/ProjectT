@@ -187,31 +187,39 @@ int nn_MatmulLt_RowMajor(T *A, T *B, T *dst, int m, int k, int n, int A_T, int B
 template<typename T>
 int nn_MatmulLt_RowMajorX(T *A, T *B, T *dst, int m, int k, int n, int A_T, int B_T)
 {
-#define OP(a,b) (abs(a-b)<=0.2f)
-#define OPERATION_RANGE(a,b,sum) \
-        if (OP(f_A[(idm*k) + idk], f_B[(idk*n) + idn])) { \
-            sum++; \
-        }
-#define OPERATION_ADIFF(a,b,sum) \
-        sum += (1-abs(a-b));
-#define OUTPUT_ADIFF(sum,len) (sum/len)
-
-#define OPERATION(a,b,sum)  OPERATION_ADIFF(a,b,sum)
-#define OUTPUT(sum,len)     OUTPUT_ADIFF(sum,len)
-
     //printf(">>> %s(), [%u,%u - %u,%u][AT=%u, BT=%u]\n", __func__, m, k, k, n, A_T, B_T);
     const T* f_A = (const T*)A;
     const T* f_B = (const T*)B;
+    //uint32_t i, j, y, idc, idk;
 
+    // SWC_PRINT("MAT_size %d %d %d\n",m,k,n);
+    // for( i = 0; i < m*k; i++){
+    //     SWC_PRINT("A[%d] %f\n",i,f_A[i]);
+    // }
+    // for( i = 0; i < n*k; i++){
+    //     SWC_PRINT("B[%d] %f\n",i,f_B[i]);
+    // }
     {
+        // to row major
+        // f_A = (const T*)B;
+        // f_B = (const T*)A;
+        // uint32_t m_ori = m;
+        // uint32_t n_ori = n;
+        // m = n_ori;
+        // n = m_ori;
+        // uint32_t A_T_ori = A_T;
+        // uint32_t B_T_ori = B_T;
+        // A_T = B_T_ori;
+        // B_T = A_T_ori;
+
         if(A_T == 0 && B_T == 0) {
             for (int idm = 0; idm < m; idm++) {
                 for (int idn = 0; idn < n; idn++) {
                     T sum = 0.0;
                     for (int idk = 0; idk < k; idk++) {
-                        OPERATION(f_A[(idm*k) + idk], f_B[(idk*n) + idn], sum);
+                        sum += f_A[(idm*k) + idk] * f_B[(idk*n) + idn];
                     }
-                    *dst = OUTPUT(sum, n);
+                    *dst = sum;
                     dst++;
                 }
             }
@@ -221,9 +229,9 @@ int nn_MatmulLt_RowMajorX(T *A, T *B, T *dst, int m, int k, int n, int A_T, int 
                 for (int idn = 0; idn < n; idn++) {
                     T sum = 0.0;
                     for (int idk = 0; idk < k; idk++) {
-                        OPERATION(f_A[(idm*k) + idk], f_B[(idn*k) + idk], sum);
+                        sum += f_A[(idm*k) + idk] * f_B[(idn*k) + idk];
                     }
-                    *dst = OUTPUT(sum, n);
+                    *dst = sum;
                     dst++;
                 }
             }
@@ -233,9 +241,9 @@ int nn_MatmulLt_RowMajorX(T *A, T *B, T *dst, int m, int k, int n, int A_T, int 
                 for (int idn = 0; idn < n; idn++) {
                     T sum = 0.0;
                     for (int idk = 0; idk < k; idk++) {
-                        OPERATION(f_A[(idk*m) + idm], f_B[(idk*n) + idn], sum);
+                        sum += f_A[(idk*m) + idm] * f_B[(idk*n) + idn];
                     }
-                    *dst = OUTPUT(sum, n);
+                    *dst = sum;
                     dst++;
                 }
             }
@@ -245,9 +253,9 @@ int nn_MatmulLt_RowMajorX(T *A, T *B, T *dst, int m, int k, int n, int A_T, int 
                 for (int idn = 0; idn < n; idn++) {
                     T sum = 0.0;
                     for (int idk = 0; idk < k; idk++) {
-                        OPERATION(f_A[(idk*m) + idm], f_B[(idn*k) + idk], sum);
+                        sum += f_A[(idk*m) + idm] * f_B[(idn*k) + idk];
                     }
-                    *dst = OUTPUT(sum, n);
+                    *dst = sum;
                     dst++;
                 }
             }
