@@ -106,6 +106,13 @@ void label_char2int(int num_data, unsigned char data_label_char[][1], int data_l
 
 void load_mnist()
 {
+    PRLOC
+
+    printf("TRAIN_IMAGE = %s\n", TRAIN_IMAGE);
+    printf("TRAIN_LABEL = %s\n", TRAIN_LABEL);
+    printf("TEST_IMAGE  = %s\n", TEST_IMAGE);
+    printf("TEST_LABEL  = %s\n", TEST_LABEL);
+
     read_mnist_image_char(TRAIN_IMAGE, NUM_TRAIN, LEN_INFO_IMAGE, SIZE784, train_image_char, info_image);
     image_char2double(NUM_TRAIN, train_image_char, train_image);
 

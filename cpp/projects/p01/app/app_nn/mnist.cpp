@@ -585,7 +585,11 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
 
 void Demo_mnist_X()
 {
+    PRLOC
+
     load_mnist();
+
+    PRLOC
 
     ArTen<float> testImages({NUM_TEST, SIZE784});
     ArTen<float> trainImages({NUM_TRAIN, SIZE784});
