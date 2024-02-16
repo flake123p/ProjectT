@@ -2,7 +2,7 @@
 #include "mnist_for_c.h"
 #include "nn.h"
 #include "_lib.h"
-#include "models.h"
+#include "nn_mnist.h"
 
 void Demo_likely_hood()
 {
@@ -88,27 +88,22 @@ void ArTen_X_Test()
 
 }
 
+void modelX_test()
+{
+    PRLOC
+}
+
 int main()
 {
     //example();
-    //Demo_mnist_to_png();
-    //Demo_mnist_inference();
-    {
-        // extern void Demo_mnist_inference_all();
-        // Demo_mnist_inference_all();
-
-        extern void Demo_mnist_X();
-        Demo_mnist_X();
-
-        //Demo_likely_hood();
-
-    }
 
     //ArTen_Pickle_Test();
 
     //ArTen_Rand_Test();
 
     //ArTen_X_Test();
+
+    modelX_test();
 
     return 0;
 }

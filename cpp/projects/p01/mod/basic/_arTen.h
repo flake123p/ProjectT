@@ -57,10 +57,9 @@ public:
         BASIC_ASSERT(stride_.size() == dims_);
     };
 
-    // Not Now
-    // ArTen() {
-    //     array_ = nullptr;
-    // }
+    ArTen() {
+        array_ = nullptr;
+    }
 
     ArTen(const std::initializer_list<int>& shape) {
         //printf("list.size() = %ld\n", shape.size());
@@ -179,6 +178,11 @@ public:
     */
     
     void copy_array(ArTen &src) {
+        BASIC_ASSERT(this->prod_ == src.prod_);
+        memcpy(this->array_, src.array_, sizeof(T)*prod_);
+    };
+
+    void copy_array(const ArTen &src) {
         BASIC_ASSERT(this->prod_ == src.prod_);
         memcpy(this->array_, src.array_, sizeof(T)*prod_);
     };

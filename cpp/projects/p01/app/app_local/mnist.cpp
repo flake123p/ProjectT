@@ -302,9 +302,9 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
     ArTen<float> _L2w({10, 200});
     ArTen<float> _L2b({10});
 
-    _L1a.unpickle_array("pt/file_000016_1a.txt");
-    _L2w.unpickle_array("pt/file_000016_2w.txt");
-    _L2b.unpickle_array("pt/file_000016_2b.txt");
+    _L1a.unpickle_array("pt/file_000150_1a.txt");
+    _L2w.unpickle_array("pt/file_000150_2w.txt");
+    _L2b.unpickle_array("pt/file_000150_2b.txt");
 
 
     ArTen<float> _L1aX({200, SIZE784});
@@ -320,7 +320,7 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
     int batches = 1;
     int batch_elem = len / batches;
     int start, end;
-    int epochs = 999999;
+    int epochs = 9999999;
 
     uint32_t old_seq = 0;
     uint32_t cur_seq = 1;
@@ -331,15 +331,15 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
         int is_updated = 0;
         int matches_total = 0;
         for (int b = 0; b < batches; b++) {
-            if (0) {
+            if (1) {
                 _L1aX.copy_array(_L1a);
                 _L2wX.copy_array(_L2w);
                 _L2bX.copy_array(_L2b);
-                _L1aX.random(6, [&](int idx, float *inst) {
+                _L1aX.random(0.5f, 50, [&](int idx, float *inst) {
                     idx = idx;
                     *inst = RandFloat0to1<float>();
                 });
-                _L2wX.random(2, [&](int idx, float *inst) {
+                _L2wX.random(0.5f, 2, [&](int idx, float *inst) {
                     idx = idx;
                     *inst = RandFloat0to1<float>() * 10.0f - 5.0f;
                 });
@@ -348,18 +348,18 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
                     *inst = RandFloat0to1<float>() * 10.0f - 5.0f;
                 });
             } else {
-                _L1aX.travers_array([&](int idx, float *inst) {
-                    idx = idx;
-                    *inst = RandFloat0to1<float>();
-                });
-                _L2wX.travers_array([&](int idx, float *inst) {
-                    idx = idx;
-                    *inst = RandFloat0to1<float>() * 6.0f - 3.0f;
-                });
-                _L2bX.travers_array([&](int idx, float *inst) {
-                    idx = idx;
-                    *inst = RandFloat0to1<float>() * 6.0f - 3.0f;
-                });
+                // _L1aX.travers_array([&](int idx, float *inst) {
+                //     idx = idx;
+                //     *inst = RandFloat0to1<float>();
+                // });
+                // _L2wX.travers_array([&](int idx, float *inst) {
+                //     idx = idx;
+                //     *inst = RandFloat0to1<float>() * 6.0f - 3.0f;
+                // });
+                // _L2bX.travers_array([&](int idx, float *inst) {
+                //     idx = idx;
+                //     *inst = RandFloat0to1<float>() * 6.0f - 3.0f;
+                // });
             }
 
             start = b * batch_elem;
@@ -385,18 +385,18 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
                 _L1aX, _L2wX, _L2bX,
                 &matches2
             );
-            // printf("X [e:%2d, b:%2d] sum = %f (%d)\n", e, b, sum2, sum2>sum);
-            // printf("X matches = %d (%d)\n", matches2, matches2>matches);
+            printf("X [e:%2d, b:%2d] sum = %f, sum2 = %f (%d)\n", e, b, sum, sum2, sum2>sum);
+            printf("X matches = %d, matches2 = %d (%d)\n", matches, matches2, matches2>matches);
 
             int update = 0;
-            if (sum2 > sum) {
-                update = 1;
-            }
-            // if (matches2 > matches) {
+            // if (sum2 > sum) {
             //     update = 1;
             // }
+            if (matches2 > matches) {
+                update = 1;
+            }
             if (update) {
-                printf("X [e:%2d, b:%2d] sum = %f (%d), matches = %d (%d)\n", 
+                printf("> [e:%2d, b:%2d] sum = %f (%d), matches = %d (%d)\n", 
                     e, b, sum2, sum2>sum,
                     matches2, matches2>matches);
                 _L1a.copy_array(_L1aX);
@@ -412,7 +412,7 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
 
         if (is_updated) {
             std::string save;
-            int indents = 6;
+            int indents = 7;
 
             save = "pt_temp/file_";
             StringAppendInt(save, e, indents);

@@ -7,3 +7,4 @@
 #include "_arTenMat.h"
 #include "_math.h"
 #include "_string.h"
+#include "_mem.h"
