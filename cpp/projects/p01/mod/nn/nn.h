@@ -8,3 +8,4 @@
 #include "nn_softmax.h"
 #include "nn_one_hot.h"
 #include "nn_likely_hood.h"
+#include "nn_local.h"
