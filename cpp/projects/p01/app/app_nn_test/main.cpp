@@ -88,10 +88,6 @@ void ArTen_X_Test()
 
 }
 
-void modelX_test()
-{
-    PRLOC
-}
 
 int main()
 {
@@ -103,7 +99,10 @@ int main()
 
     //ArTen_X_Test();
 
-    modelX_test();
+    {
+        extern void ModelX_Run();
+        ModelX_Run();
+    }
 
     return 0;
 }

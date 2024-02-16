@@ -2,7 +2,6 @@
 #include "mnist_for_c.h"
 #include "nn.h"
 #include "_lib.h"
-#include "models.h"
 
 void Demo_likely_hood()
 {

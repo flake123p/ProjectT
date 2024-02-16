@@ -302,9 +302,9 @@ void MnistRunX_Pretraind(ArTen<float> &images, int len, int *labels)
     ArTen<float> _L2w({10, 200});
     ArTen<float> _L2b({10});
 
-    _L1a.unpickle_array("pt/file_000150_1a.txt");
-    _L2w.unpickle_array("pt/file_000150_2w.txt");
-    _L2b.unpickle_array("pt/file_000150_2b.txt");
+    _L1a.unpickle_array("pt/file_0003236_1a.txt");
+    _L2w.unpickle_array("pt/file_0003236_2w.txt");
+    _L2b.unpickle_array("pt/file_0003236_2b.txt");
 
 
     ArTen<float> _L1aX({200, SIZE784});
