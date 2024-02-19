@@ -88,6 +88,30 @@ void ArTen_X_Test()
 
 }
 
+void Selection_Test()
+{
+    int len = 3;
+
+    Selection<float> s(len, -1, 99999);
+
+    s.val[0] = 100;
+    s.val[1] = 15;
+    s.val[2] = 16;
+    s.init();
+    for (int i = 0; i < len; i++) {
+        int idx = s.max(0, 3);
+        printf("MAX [%d] idx = %d\n", i, idx);
+        BASIC_ASSERT(idx != -1);
+    }
+
+    s.init();
+    for (int i = 0; i < len; i++) {
+        int idx = s.min(0, 3);
+        printf("MIN [%d] idx = %d\n", i, idx);
+        BASIC_ASSERT(idx != -1);
+    }
+}
+
 
 int main()
 {
@@ -98,6 +122,8 @@ int main()
     //ArTen_Rand_Test();
 
     //ArTen_X_Test();
+
+    // Selection_Test();
 
     {
         extern void ModelX_Run();

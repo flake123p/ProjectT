@@ -15,19 +15,21 @@ public:
     ArTen<float> _L2b;
     float sum = 0.0f;
     int matches = 0;
+    float *pSum = nullptr;
+    int *pMatches = nullptr;
     // uint32_t seqL = 0;
     // uint32_t seqR = 1;
 
     modelX(/* args */) {
-        float *buf1 = (float *)malloc(200 * sizeof(float));
-        float *buf2 = (float *)malloc(200 * sizeof(float));
+        buf1 = (float *)malloc(200 * sizeof(float));
+        buf2 = (float *)malloc(200 * sizeof(float));
+
+        pSum = &sum;
+        pMatches = &matches;
 
         _L1a.Reset({200, 784});
         _L2w.Reset({10, 200});
         _L2b.Reset({10});
-
-        buf1 = buf1;
-        buf2 = buf2;
     };
     ~modelX() {
         free_safely(buf1);
@@ -39,8 +41,8 @@ public:
         this->_L1a.copy_array(other._L1a);
         this->_L2w.copy_array(other._L2w);
         this->_L2b.copy_array(other._L2b);
-        this->sum = other.sum;
-        this->matches = other.matches;
+        *(this->pSum) = *(other.pSum);
+        *(this->pMatches) = *(other.pMatches);
         return *this;
     }
 
@@ -77,6 +79,14 @@ public:
     }
 
     float InferBatch_HoodSum (
+        ArTen<float> *images, int len, int *labels,
+        int start, int end,
+        int *matches = nullptr
+    )
+    {
+        return InferBatch_HoodSum(*images, len, labels, start, end, matches);
+    }
+    float InferBatch_HoodSum (
         ArTen<float> &images, int len, int *labels,
         int start, int end,
         int *matches = nullptr
@@ -96,6 +106,9 @@ public:
         int max;
 
         len = len;
+
+        BASIC_ASSERT(buf1 != nullptr);
+        BASIC_ASSERT(buf2 != nullptr);
 
         for (int i = start; i < end; i++) {
             nn_MatmulLt_RowMajorX<float>(&images(i, 0), _L1a.array_, buf1, 1, 784, 200, 0, 1);
@@ -139,8 +152,8 @@ public:
             *matches = matched_ctr;
         }
 
-        this->sum = hood_sum;
-        this->matches = matched_ctr;
+        *pSum = hood_sum;
+        *pMatches = matched_ctr;
 
         return hood_sum;
     }
