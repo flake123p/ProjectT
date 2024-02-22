@@ -32,15 +32,31 @@ struct my_integer_sequence {
   // Implementation here ...
 
   // Flake: How to use??
+  constexpr static int value = sizeof...(seq);
+
+  void run() {
+    const auto s = {seq...};
+    for (auto i : s) {
+      printf("%d\n", i);
+    }
+  }
 };
 
 int main() {
     // Explicitly pass type `int` as template argument.
     auto seq = std::integer_sequence<int, 0, 1, 2>();
     // Type is deduced to be `int`.
-    auto seq2 = my_integer_sequence<0, 1, 2>();
+    auto seq2 = my_integer_sequence<1, 3, 5>();
+    auto seq3 = my_integer_sequence<1, 3, 6>();
 
     //* - For example, you cannot use a double as a template parameter type, which also makes this an invalid deduction using auto.
+    printf("seq2.value = %d\n", seq2.value);
+    printf("seq3.value = %d\n", seq3.value);
+    
+    seq2.run();
+    seq3.run();
+
+    //printf("Addresses: %p, %p\n", (void *)seq2.run, (void *)seq3.run);
     
     return 0;
 }
