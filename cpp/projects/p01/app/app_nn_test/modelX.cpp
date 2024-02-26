@@ -27,9 +27,9 @@ int gEscapeCtr = 0;
 
 void load_pretrain()
 {
-    mx[0]._L1a.unpickle_array("pt/file_000000572_1a.txt");
-    mx[0]._L2w.unpickle_array("pt/file_000000572_2w.txt");
-    mx[0]._L2b.unpickle_array("pt/file_000000572_2b.txt");
+    mx[0]._L1a.unpickle_array("../nn_best/best_1a.txt");
+    mx[0]._L2w.unpickle_array("../nn_best/best_2w.txt");
+    mx[0]._L2b.unpickle_array("../nn_best/best_2b.txt");
 
     // mx[0] = mx[0];
 
