@@ -111,12 +111,15 @@ public:
         BASIC_ASSERT(buf2 != nullptr);
 
         for (int i = start; i < end; i++) {
-            nn_MatmulLt_RowMajorX<float>(&images(i, 0), _L1a.array_, buf1, 1, 784, 200, 0, 1);
+            nn_MatmulLt_RowMajor<float>(&images(i, 0), _L1a.array_, buf1, 1, 784, 200, 0, 1);
             
             //ARRAYDUMPF(buf1, 200);
 
             // nn_vecAdd(buf1, local_b0_storage, buf1, 200);
-            // nn_relu(buf1, buf1, 200);
+
+            // Non for modelX
+            nn_relu(buf1, buf1, 200);
+
             // nn_MatmulLt_RowMajor<float>(buf1, local_w1_storage, buf2, 1, 200, 200, 0, 1);
             // nn_vecAdd(buf2, local_b1_storage, buf2, 200);
             // nn_relu(buf2, buf2, 200);
@@ -128,7 +131,11 @@ public:
 
             //ARRAYDUMPF(buf2, 10);
             
-            nn_softmax(buf2, buf2, 10, 1.1f);
+            // modelX
+            //nn_softmax(buf2, buf2, 10, 1.1f);
+
+            // Basic MM
+
             // buf2[4] = 1;
             // ARRAYDUMPF(buf2, 10);
 
