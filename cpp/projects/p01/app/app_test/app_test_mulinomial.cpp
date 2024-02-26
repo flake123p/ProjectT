@@ -31,3 +31,21 @@ void Rand_Probability_Test()
         printf("%lu, %f\n", i, mulNom.output[i]);
     }
 }
+
+void Rand_Probability_Test2()
+{
+    RandSeedInit();
+
+    float p[32000];
+
+    for (int i = 0; i < 32000; i++) {
+        p[i] = RandFloat0to1<float>();
+    }
+
+    Multinomial mulNom(p, size_of_array(p));
+
+    mulNom.CalcOutput();
+    for (size_t i = 0; i < mulNom.accuLen; i++) {
+        printf("%lu, %f\n", i, mulNom.output[i]);
+    }
+}

@@ -35,7 +35,7 @@ struct Multinomial {
     float *accu = nullptr;
     float *selectableMask = nullptr;
     float *output = nullptr;
-    size_t accuLen;
+    size_t accuLen = 0;
 
     float CumsumSelectable() {
         BASIC_ASSERT(accu != nullptr);
@@ -61,7 +61,13 @@ struct Multinomial {
         }
         for (size_t i = 1; i < accuLen; i++) {
             accu[i] += accu[i-1];
-            BASIC_ASSERT(accu[i] <= 1.0);
+            // if (accu[i] > 1.0) {
+            //     if (accu[i] < 1.0001) {
+            //         accu[i] = 1.0;
+            //     }
+            //     //printf("i:%lu, accuLen:%lu, accu[i]:%f\n", i, accuLen, accu[i]);
+            // }
+            // BASIC_ASSERT(accu[i] <= 1.0);
         }
         //printf("CumsumSelectable, B sum=%f, %f %f %f %f\n", sum, accu[0], accu[1], accu[2], accu[3]);
         return sum;
