@@ -1,6 +1,7 @@
 #include "mnist_for_c.h"
 #include "_float.h"
 #include "app_test.h"
+#include "_half.h"
 
 void Float_Test() 
 {
@@ -254,4 +255,32 @@ void Float_Test_Case00()
     Fp16Cell result;
     result.u = f32_to_f16u(a + b);
     printf("Result = %f\n", result.Double());
+}
+
+void Float_Test_Case01() 
+{
+    {
+        Fp32Cell a32;
+        Fp16Cell a16;
+        a16.u = 0xFED8;
+        FloatCellConverter(a32, a16);
+
+        printf("a32 = %f (0x%08X)\n", a32.f, a32.u);
+
+        printf("a16 = %f (0x%04X)\n", a16.Double(), a16.u);
+    }
+    {
+        float a32 = fp16_ieee_to_fp32_value(0xFED8);
+
+        printf("a32 = %f\n", a32);
+    }
+}
+
+void Float_Test_Case02() 
+{
+    {
+        Fp64Cell a64;
+        a64.f = 1.23;
+        printf("a64 = %f (0x%016lX)\n", a64.f, a64.u);
+    }
 }

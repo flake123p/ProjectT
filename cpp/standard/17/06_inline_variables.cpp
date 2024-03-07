@@ -26,6 +26,12 @@
   The inline specifier can be applied to variables as well as to functions. 
   
   A variable declared inline has the same semantics as a function declared inline.
+
+  --
+
+  Inline Variables in C++ 17
+  
+    https://www.geeksforgeeks.org/cpp-17-inline-variables/
 */
 
 // It can also be used to declare and define a static member variable, such that it does not need to be initialized in the source file.

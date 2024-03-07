@@ -14,9 +14,9 @@ int main()
     //Float_Test_Converter();
 
     //Float_Test_Manual();
-    //Float_Test_Case00();
+    Float_Test_Case02();
 
-    Rand_Probability_Test2();
+    //Rand_Probability_Test2();
     //Stat_Test();
 
     // {
