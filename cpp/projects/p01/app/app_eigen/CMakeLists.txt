@@ -16,7 +16,7 @@ endif()
 
 file(GLOB SRC CONFIGURE_DEPENDS "*.c" "*.cpp" "*.cxx" "*.cc")
 SET_SOURCE_FILES_PROPERTIES(${SRC} PROPERTIES LANGUAGE CXX )
-set(CMAKE_CXX_FLAGS "-O2 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wextra")
 add_executable(a.out ${SRC})
 
 target_include_directories(
