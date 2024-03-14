@@ -38,8 +38,8 @@ Coordinate origin() {
 int main() {
   const auto [ x, y ] = origin();
   
-  COUT(x); // == 1
-  COUT(y); // == 2
+  CDUMP(x); // == 1
+  CDUMP(y); // == 2
 
   //
   //
