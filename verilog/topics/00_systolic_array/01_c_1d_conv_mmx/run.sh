@@ -12,4 +12,15 @@
 #
 # https://stackoverflow.com/questions/11228855/header-files-for-x86-simd-intrinsics
 #
+# <mmintrin.h>  MMX
+# <xmmintrin.h> SSE
+# <emmintrin.h> SSE2
+# <pmmintrin.h> SSE3
+# <tmmintrin.h> SSSE3
+# <smmintrin.h> SSE4.1
+# <nmmintrin.h> SSE4.2
+# <ammintrin.h> SSE4A
+# <wmmintrin.h> AES
+# <immintrin.h> AVX, AVX2, FMA
+#
 g++ $1 -march=native; ./a.out
