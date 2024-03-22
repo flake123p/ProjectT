@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <thread>         // std::thread, std::chrono
 #include <vector>
-#include "opti00.hpp"
-#include "opti01.hpp"
+#include "gemm.hpp"
+
 
 //
 // https://github.com/flame/how-to-optimize-gemm/wiki#the-gotoblasblis-approach-to-optimizing-matrix-matrix-multiplication---step-by-step
@@ -89,7 +89,7 @@ void test_nn_Matmul_accuracy()
 void test_opti00_accuracy() 
 {
     memset(CC.array_, 0, SHAPE0 * SHAPE0);
-    MY_MMult_Opti00<float>(SHAPE0, SHAPE0, SHAPE0, AA.array_, SHAPE0, BB.array_, SHAPE0, CC.array_, SHAPE0);
+    hto_mm_00<float>(SHAPE0, SHAPE0, SHAPE0, AA.array_, SHAPE0, BB.array_, SHAPE0, CC.array_, SHAPE0);
 
     float max_diff_abs = 0;
     int diff_ctr = 0;
@@ -135,7 +135,7 @@ void test_nn_Matmul_time()
     time_prof (
         [&]() -> void {
             for (int i = 0; i < loop; i++) {
-                MY_MMult_Opti00<float>(SHAPE0, SHAPE0, SHAPE0, AA.array_, SHAPE0, BB.array_, SHAPE0, CC.array_, SHAPE0);
+                hto_mm_00<float>(SHAPE0, SHAPE0, SHAPE0, AA.array_, SHAPE0, BB.array_, SHAPE0, CC.array_, SHAPE0);
             }
         }, 
         "Opti00"
@@ -143,7 +143,7 @@ void test_nn_Matmul_time()
     time_prof (
         [&]() -> void {
             for (int i = 0; i < loop; i++) {
-                MY_MMult_Opti01<float>(SHAPE0, SHAPE0, SHAPE0, AA.array_, SHAPE0, BB.array_, SHAPE0, CC.array_, SHAPE0);
+                hto_mm_01<float>(SHAPE0, SHAPE0, SHAPE0, AA.array_, SHAPE0, BB.array_, SHAPE0, CC.array_, SHAPE0);
             }
         }, 
         "Opti01"

@@ -1,20 +1,15 @@
+#pragma once
+
+#include "hto_internal.hpp"
+
+// From: https://github.com/flame/how-to-optimize-gemm
 
 /* Create macros so that the matrices are stored in column-major order */
-
-#ifndef A
-#define A(i,j) a[ (j)*lda + (i) ]
-#endif
-#ifndef B
-#define B(i,j) b[ (j)*ldb + (i) ]
-#endif
-#ifndef C
-#define C(i,j) c[ (j)*ldc + (i) ]
-#endif
 
 /* Routine for computing C = A * B + C */
 
 template<typename Scalar_T>
-void MY_MMult_Opti00( int m, int n, int k, Scalar_T *a, int lda, 
+void hto_mm_00( int m, int n, int k, Scalar_T *a, int lda, 
                                     Scalar_T *b, int ldb,
                                     Scalar_T *c, int ldc )
 {

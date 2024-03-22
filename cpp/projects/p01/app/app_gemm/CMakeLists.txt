@@ -27,6 +27,7 @@ target_include_directories(
     # "${PROJECT_SOURCE_DIR}/../embeig/inc"
     "${MAIN_PROJECT_DIR}/mod/basic"
     "${MAIN_PROJECT_DIR}/mod/stat"
+    "${MAIN_PROJECT_DIR}/mod/gemm"
 )
 
 # 
