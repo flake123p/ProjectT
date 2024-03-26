@@ -29,6 +29,9 @@ target_include_directories(
     "${MAIN_PROJECT_DIR}/mod/stat"
 )
 
+#
+# mnist_for_c
+#
 include(${MAIN_PROJECT_DIR}/modlists/mnist_for_c/mnist_for_c.cmake)
 mnist_for_c_cmake(a.out) # include, subdirectory, link
 

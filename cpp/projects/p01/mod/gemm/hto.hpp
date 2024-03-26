@@ -16,4 +16,3 @@ void HtoRowMajorF32(int m, int n, int k, float *a, float *b, float *c)
 {
     HtoRowMajor<float, HTO_Func_T>(n, m, k, b, n, a, k, c, m);
 }
-                                
