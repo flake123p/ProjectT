@@ -1,0 +1,11 @@
+using sysbus
+mach create
+
+#//machine LoadPlatformDescription @platforms/cpus/miv.repl
+machine LoadPlatformDescription @platforms/cpus/miv_smp.repl
+
+sysbus LoadELF @scripts/a
+
+machine StartGdbServer 5555
+
+#//s

@@ -1,0 +1,30 @@
+
+ddr: Memory.MappedMemory @ sysbus 0x00010000
+    size: 0x30000000
+
+cpu_0: CPU.VexRiscv @ sysbus
+    cpuType: "rv32imaf"
+    hartId: 0
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+cpu_1: CPU.VexRiscv @ sysbus
+    cpuType: "rv32imaf"
+    hartId: 1
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+
+// Power/Reset/Clock/Interrupt
+//clint: IRQControllers.CoreLevelInterruptor  @ sysbus 0x44000000
+//    frequency: 66000000
+//    [0, 1] -> cpu_0@[3, 7]
+clint: IRQControllers.CoreLevelInterruptor @ sysbus 0xF0010000
+    frequency: 1000000
+    numberOfTargets: 2
+    // 100 is machine level timer interrupt in VexRiscv
+    // 101 is machine level software interrupt in VexRiscv
+    [0, 1] -> cpu_0@[101, 100]
+    [2, 3] -> cpu_1@[101, 100]
+
+
